@@ -5,9 +5,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.mjjaen</groupId>
-  <artifactId>functionalprogramming</artifactId>
+  <artifactId>datastructure</artifactId>
   <version>1.0.0-RELEASE</version>
-  <name>functionalprogramming</name>
+  <name>datastructure</name>
+
+  <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-aop</artifactId>
+      </dependency>
+  </dependencies>
 
   <parent>
     <artifactId>codingtutorials</artifactId>

@@ -21,6 +21,7 @@
     <modules>
         <module>designpatterns</module>
         <module>functionalprogramming</module>
+        <module>datastructure</module>
     </modules>
 
     <properties>
