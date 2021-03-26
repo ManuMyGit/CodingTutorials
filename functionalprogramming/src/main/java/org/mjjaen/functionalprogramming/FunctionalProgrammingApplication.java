@@ -5,6 +5,9 @@ import org.mjjaen.functionalprogramming.businessObject.Person;
 import org.mjjaen.functionalprogramming.businessObject.functionalinterface.SquareInterface;
 import org.mjjaen.functionalprogramming.businessObject.predicates.GreenApplePredicate;
 import org.mjjaen.functionalprogramming.businessObject.predicates.HeavyApplePredicate;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,26 +18,32 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FunctionalProgrammingApplication {
+@SpringBootApplication
+public class FunctionalProgrammingApplication implements CommandLineRunner  {
 	private static final String STRATEGY_COLOR = "STRATEGY_COLOR";
 	private static final String STRATEGY_PESO = "STRATEGY_PESO";
 
-    public static void main( String[] args ) {
-    	exampleFunctionalInterface();
-    	exampleHighOrderFunction();
-    	exampleMethodReferenceClass();
-    	exampleMethodReferenceInstance();
-    	exampleMethodReferenceType();
-    	exampleMethodReferenceEmptyConstructor();
-    	exampleMethodReferenceNotEmptyConstructor();
-    	exampleLambda();
-    	exampleStream();
-    	exampleOptional();
-    	examplePredicate();
-    	exampleFunctions();
-    	exampleComparators();
-    	exampleRecursion();
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(FunctionalProgrammingApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		exampleFunctionalInterface();
+		exampleHighOrderFunction();
+		exampleMethodReferenceClass();
+		exampleMethodReferenceInstance();
+		exampleMethodReferenceType();
+		exampleMethodReferenceEmptyConstructor();
+		exampleMethodReferenceNotEmptyConstructor();
+		exampleLambda();
+		exampleStream();
+		exampleOptional();
+		examplePredicate();
+		exampleFunctions();
+		exampleComparators();
+		exampleRecursion();
+	}
 
 	private static Person[] initializeArrayPerson() {
 		Person[] personArray = new Person[5];
