@@ -5,8 +5,8 @@ Coding repository where you can find some code about different coding features (
 - [Data structures](https://github.com/ManuMyGit/CodingTutorials/tree/main/datastructure)
 - [Spring Data](https://github.com/ManuMyGit/CodingTutorials/tree/main/springdata)
 - [Git](https://github.com/ManuMyGit/CodingTutorials/blob/main/git.md)
+- [Synchronous vs asynchronous server](https://github.com/ManuMyGit/CodingTutorials/tree/main/syncasyncserver)
 - Kafka
-- Sync vs async
 - Microservices
 - Reactive programming
 - Docker

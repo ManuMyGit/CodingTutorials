@@ -23,6 +23,7 @@
         <module>functionalprogramming</module>
         <module>datastructure</module>
         <module>springdata</module>
+        <module>syncasyncserver</module>
     </modules>
 
     <properties>
