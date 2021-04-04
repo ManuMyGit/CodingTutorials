@@ -878,10 +878,10 @@ In this approach, what we do is to create a new interface to represent the field
 
 ```java
 public interface AddressView {
-    String getZipCode();
+    String getStreet();
 }
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    List<AddressView> getAddressByState(String state);
+    List<AddressView> findByState(String state);
 }
 ```
 
@@ -890,11 +890,11 @@ We can create our own class projections instead of letting spring do the behind 
 
 ```java
 public class AddressDto {
-    private String zipCode;
+    private String street;
     //Constructor, getters and setters
 }
 public interface AddressRepository extends JpaRepository<Address, Long> {
-    List<AddressDto> getAddressByState(String state);
+    List<AddressDto> findByState(String state);
 }
 ```
 
@@ -902,15 +902,15 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 An entity class may have many projections. In some cases, we may use a certain type, but in other cases, we may need another type. Sometimes, we also need to use the entity class itself. Defining separate repository interfaces or methods just to support multiple return types is cumbersome. To deal with this problem, Spring Data provides a better solution: dynamic projections. We can apply dynamic projections just by declaring a repository method with a Class parameter:
 
 ```java
-public interface PersonRepository extends Repository<Person, Long> {
+public interface AddressRepository extends JpaRepository<Address, Long> {
     // ...
-    <T> T findByLastName(String lastName, Class<T> type);
+    <T> T findByState(String state, Class<T> type);
 }
 
 public void myMethod() {
-    Person person = personRepository.findByLastName("Doe", Person.class);
-    PersonView personView = personRepository.findByLastName("Doe", PersonView.class);
-    PersonDto personDto = personRepository.findByLastName("Doe", PersonDto.class);
+    Address address = addressRepository.findByState("NY", Address.class);
+    AddressView personView = addressRepository.findByState("NY", AddressView.class);
+    AddressDto personDto = addressRepository.findByState("NY", AddressDto.class);
 }
 ```
 
