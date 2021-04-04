@@ -1,11 +1,12 @@
-# CodingTutorials
-Coding repository where you can find some code about different coding features (mainly Java and Spring framework):
-- [Design patterns](https://github.com/ManuMyGit/CodingTutorials/tree/main/designpatterns)
-- [Functional programming](https://github.com/ManuMyGit/CodingTutorials/tree/main/functionalprogramming)
-- [Data structures](https://github.com/ManuMyGit/CodingTutorials/tree/main/datastructure)
-- [Spring Data](https://github.com/ManuMyGit/CodingTutorials/tree/main/springdata)
-- [Git](https://github.com/ManuMyGit/CodingTutorials/blob/main/git.md)
-- [Synchronous vs asynchronous server](https://github.com/ManuMyGit/CodingTutorials/tree/main/syncasyncserver)
+# Technical tutorials
+In this repository you can find several tutorials about different coding features (mainly Java and Spring framework):
+- [Design patterns](https://github.com/ManuMyGit/CodingTutorials/tree/main/designpatterns): the most common GoF patterns.
+- [Java Functional programming](https://github.com/ManuMyGit/CodingTutorials/tree/main/functionalprogramming): what is and how to use functional programming in Java.
+- [Java Data structures](https://github.com/ManuMyGit/CodingTutorials/tree/main/datastructure): tutorial about the main data structures Java offers.
+- [Spring Data](https://github.com/ManuMyGit/CodingTutorials/tree/main/springdata): several tutorials about Spring Data and its subprojects (like Jpa and Mongo).
+- [Git](https://github.com/ManuMyGit/CodingTutorials/blob/main/git.md): simple tutorial about git and its available commands.
+- [Java Concurrency](https://github.com/ManuMyGit/CodingTutorials/tree/main/concurrency): tutorial about concurrency and parallelism in Java.
+- [Synchronous vs asynchronous server](https://github.com/ManuMyGit/CodingTutorials/tree/main/syncasyncserver): simple example about the difference in performance of a REST api server which manages the requests synchronously and asynchronously. 
 - Kafka (coming soon ...)
 - Microservices (coming soon ...)
 - Reactive programming (coming soon ...)

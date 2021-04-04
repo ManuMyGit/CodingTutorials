@@ -24,6 +24,7 @@
         <module>datastructure</module>
         <module>springdata</module>
         <module>syncasyncserver</module>
+        <module>concurrency</module>
     </modules>
 
     <properties>

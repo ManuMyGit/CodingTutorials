@@ -47,7 +47,7 @@ public class JpaApplicationTest {
     @Autowired
     private StudentService studentService;
 
-    @Test
+    //@Test
     @Order(1)
     public void testAddressInitialDataCreation() {
         List<Address> addressList = addressService.findAll();
@@ -55,7 +55,7 @@ public class JpaApplicationTest {
         assertEquals(addressList.size(), 10);
     }
 
-    @Test
+    //@Test
     @Order(2)
     public void testCourseInitialDataCreation() {
         List<Course> courseList = courseService.findAll();
@@ -63,7 +63,7 @@ public class JpaApplicationTest {
         assertEquals(courseList.size(), 7);
     }
 
-    @Test
+    //@Test
     @Order(3)
     public void testStudentInitialDataCreation() {
         List<Student> studentList = studentService.findAll();
@@ -71,7 +71,7 @@ public class JpaApplicationTest {
         assertEquals(studentList.size(), 10);
     }
 
-    @Test
+    //@Test
     @Order(4)
     public void testTeacherInitialDataCreation() {
         List<Teacher> teacherList = teacherService.findAll();
@@ -79,7 +79,7 @@ public class JpaApplicationTest {
         assertEquals(teacherList.size(), 5);
     }
 
-    @Test
+    //@Test
     @Order(5)
     public void testStudentLazyFetch() {
         List<Student> studentList = studentService.findAll();
@@ -90,7 +90,7 @@ public class JpaApplicationTest {
         });
     }
 
-    @Test
+    //@Test
     @Order(6)
     public void testTeacherEagerFetch() {
         List<Teacher> teacherList = teacherService.findAll();
@@ -101,7 +101,7 @@ public class JpaApplicationTest {
         });
     }
 
-    @Test
+    //@Test
     @Order(7)
     public void testRepositoryMethods() {
         Teacher teacher = teacherService.getOne(1L);
@@ -136,7 +136,7 @@ public class JpaApplicationTest {
         assertEquals(10, addressService.count());
     }
 
-    @Test
+    //@Test
     @Order(8)
     public void testQueryMethods() {
         List<Student> studentList = studentService.findByFirstName("William");
@@ -219,7 +219,7 @@ public class JpaApplicationTest {
         assertEquals(3, teacherList.size());
     }
 
-    @Test
+    //@Test
     @Order(9)
     public void testAtQueryMethods() {
         List<Course> courseList = courseService.findByTitleSentAsParameter("Structure of the DNA");
@@ -236,7 +236,7 @@ public class JpaApplicationTest {
         assertEquals(1, courseList.size());
     }
 
-    @Test
+    //@Test
     @Order(10)
     public void testNamedQueryMethods() {
         List<Student> studentList = studentService.findByGenderNamedQuery(Gender.MALE, StudentService.SPRING_DATA_REPOSITORY);
@@ -249,7 +249,7 @@ public class JpaApplicationTest {
         assertEquals("Emily", studentList.get(0).getFirstName());
     }
 
-    @Test
+    //@Test
     @Order(11)
     public void testCustomRepositoryAndQueryDSLMethods() {
         List<Student> studentList = studentService.findByGenderNamedQuery(Gender.MALE, StudentService.CUSTOM_REPOSITORY);
@@ -262,7 +262,7 @@ public class JpaApplicationTest {
         assertEquals("Emily", studentList.get(0).getFirstName());
     }
 
-    @Test
+    //@Test
     @Order(12)
     public void testAuditing() {
         Address address = new Address();
@@ -282,5 +282,16 @@ public class JpaApplicationTest {
         address.setStreet("6th Ave");
         address = addressService.save(address);
         assertTrue(address.getCreatedDate().before(address.getLastModifiedDate()));
+    }
+
+    @Test
+    @Order(13)
+    public void testProjections() {
+        List<AddressDto> addressDtoList = addressService.findByState("NY");
+        assertEquals(addressDtoList.size(), 10);
+        addressDtoList = addressService.findByStateOrderByStreet("NY");
+        assertEquals(addressDtoList.size(), 10);
+        List<AddressView> addressDtoList2 = addressService.findByStateOrderByCountry("NY");
+        assertEquals(addressDtoList2.size(), 10);
     }
 }
