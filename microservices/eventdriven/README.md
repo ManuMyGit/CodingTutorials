@@ -77,6 +77,6 @@ With an event streaming model, events are written to a log. Event consumers donâ
 
 # About this module
 In this documentation several implementations of this pattern can be found:
- - [RabbitMQ Pub/Sub](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq)
+ - [RabbitMQ Pub/Sub](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq): complete example about this pattern built in Java using RabbitMQ as broker.
  - (Kafka Pub/Sub)[]
  - (Kafga streaming)[]
