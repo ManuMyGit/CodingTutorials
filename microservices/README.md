@@ -33,3 +33,12 @@ However, as any other pattern, this one has its own drawbacks:
 # About this tutorial
 In this documentation the following tutorials can be found:
  - [Event driven pattern](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven)
+ - Database per service pattern (coming soon ...)
+ - Shared database pattern (coming soon ...)
+ - Saga pattern (coming soon ...)
+ - CQRS pattern (coming soon ...)
+ - Domain event pattern (coming soon ...)
+ - Event sourcing pattern (coming soon ...)
+ - Transactional outbox pattern  (coming soon ...)
+   - https://medium.com/@odedia/listen-to-yourself-design-pattern-for-event-driven-microservices-16f97e3ed066
+ 

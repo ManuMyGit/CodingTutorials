@@ -11,10 +11,17 @@ Event-driven architecture is made up of event producers and event consumers. An 
 
 The event processing platform will execute the correct response to an event and send the activity downstream to the right consumers. This downstream activity is where the outcome of an event is seen. 
 
+## Benefits of event-driven architecture
+An event-driven architecture can help organizations achieve a flexible system that can adapt to changes and make decisions in real time. Real-time situational awareness means that business decisions, whether manual or automated, can be made using all of the available data that reflects the current state of your systems. 
+
+Events are captured as they occur from event sources such as Internet of Things (IoT) devices, applications, and networks, allowing event producers and event consumers to share status and response information in real time. 
+
+Organizations can add event-driven architecture to their systems and applications to improve the scalability and responsiveness of applications and access to the data and context needed for better business decisions.
+
 ## Event-driven architecture models
 An event driven architecture may be based on either a pub/sub model or an event stream model.
 
-# Publiser - Subscriber pattern
+# Publiser - Subscriber model
 The Publish/Subscribe pattern is an architectural design pattern that provides a framework for exchanging messages between publishers and subscribers. This pattern involves the publisher and the subscriber relying on a message broker that relays messages from the publisher to the subscribers. The host (publisher) publishes messages (events) to a channel that subscribers can then sign up to.
 
 Although Pub/Sub is based on earlier design patterns like message queuing and event brokers, it is more flexible and scalable. The key to this is the fact Pub/Sub enables the movement of messages between different components of the system without the components being aware of each other’s identity.
@@ -39,7 +46,7 @@ Pub/sub messaging has the following benefits:
 - It improves testability. Channels can be monitored and messages can be inspected or logged as part of an overall integration test strategy.
 - It provides separation of concerns for your applications. Each application can focus on its core capabilities, while the messaging infrastructure handles everything required to reliably route messages to multiple consumers.
 
-### When to use this pattern
+## When to use this pattern
 Use this pattern when:
 - An application needs to broadcast information to a significant number of consumers.
 - An application needs to communicate with one or more independently-developed applications or services, which may use different platforms, programming languages, and communication protocols.
@@ -47,12 +54,12 @@ Use this pattern when:
 - The systems being integrated are designed to support an eventual consistency model for their data.
 - An application needs to communicate information to multiple consumers, which may have different availability requirements or uptime schedules than the sender.
 
-### When not to use this pattern
+## When not to use this pattern
 This pattern might not be useful when:
 - An application has only a few consumers who need significantly different information from the producing application.
 - An application requires near real-time interaction with consumers.
 
-### Issues and considerations
+## Issues and considerations
 Consider the following points when deciding how to implement this pattern:
 - Existing technologies. It is strongly recommended to use available messaging products and services that support a publish-subscribe model, rather than building your own. Available technologies that can be used for pub/sub messaging include Redis, RabbitMQ, and Apache Kafka. In this case, we're using RabbitMQ.
 - Subscription handling. The messaging infrastructure must provide mechanisms that consumers can use to subscribe to or unsubscribe from available channels.
@@ -69,7 +76,7 @@ Consider the following points when deciding how to implement this pattern:
 - Message expiration. A message might have a limited lifetime. If it isn't processed within this period, it might no longer be relevant and should be discarded. A sender can specify an expiration time as part of the data in the message. A receiver can examine this information before deciding whether to perform the business logic associated with the message.
 - Message scheduling. A message might be temporarily embargoed and should not be processed until a specific date and time. The message should not be available to a receiver until this time.
 
-## Event streaming pattern
+# Event streaming model
 With an event streaming model, events are written to a log. Event consumers don’t subscribe to an event stream. Instead, they can read from any part of the stream and can join the stream at any time.  There are a few different types of event streaming:
 - Event stream processing uses a data streaming platform, like Apache Kafka, to ingest events and process or transform the event stream. Event stream processing can be used to detect meaningful patterns in event streams.
 - Simple event processing is when an event immediately triggers an action in the event consumer.
@@ -78,5 +85,5 @@ With an event streaming model, events are written to a log. Event consumers don�
 # About this module
 In this documentation several implementations of this pattern can be found:
  - [RabbitMQ Pub/Sub](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq): complete example about this pattern built in Java using RabbitMQ as broker.
- - (Kafka Pub/Sub)[]
- - (Kafga streaming)[]
+ - Kafka Pub/Sub (coming soon ...)
+ - Kafka streaming (coming soon ...)
