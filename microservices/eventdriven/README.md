@@ -21,7 +21,7 @@ Organizations can add event-driven architecture to their systems and application
 ## Event-driven architecture models
 An event driven architecture may be based on either a pub/sub model or an event stream model.
 
-# Publiser - Subscriber model
+# Publiser - Subscriber pattern
 The Publish/Subscribe pattern is an architectural design pattern that provides a framework for exchanging messages between publishers and subscribers. This pattern involves the publisher and the subscriber relying on a message broker that relays messages from the publisher to the subscribers. The host (publisher) publishes messages (events) to a channel that subscribers can then sign up to.
 
 Although Pub/Sub is based on earlier design patterns like message queuing and event brokers, it is more flexible and scalable. The key to this is the fact Pub/Sub enables the movement of messages between different components of the system without the components being aware of each other’s identity.
@@ -75,12 +75,6 @@ Consider the following points when deciding how to implement this pattern:
 - Repeated messages. The same message might be sent more than once. For example, the sender might fail after posting a message. Then a new instance of the sender might start up and repeat the message. The messaging infrastructure should implement duplicate message detection and removal (also known as de-duping) based on message IDs in order to provide at-most-once delivery of messages.
 - Message expiration. A message might have a limited lifetime. If it isn't processed within this period, it might no longer be relevant and should be discarded. A sender can specify an expiration time as part of the data in the message. A receiver can examine this information before deciding whether to perform the business logic associated with the message.
 - Message scheduling. A message might be temporarily embargoed and should not be processed until a specific date and time. The message should not be available to a receiver until this time.
-
-# Event streaming model
-With an event streaming model, events are written to a log. Event consumers don’t subscribe to an event stream. Instead, they can read from any part of the stream and can join the stream at any time.  There are a few different types of event streaming:
-- Event stream processing uses a data streaming platform, like Apache Kafka, to ingest events and process or transform the event stream. Event stream processing can be used to detect meaningful patterns in event streams.
-- Simple event processing is when an event immediately triggers an action in the event consumer.
-- Complex event processing requires an event consumer to process a series of events in order to detect patterns.
 
 # About this module
 In this documentation several implementations of this pattern can be found:
