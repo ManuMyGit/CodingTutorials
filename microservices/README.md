@@ -59,8 +59,8 @@ The centralized messaging topology is typically found in larger business applica
 
 # About this tutorial
 In this documentation the following tutorials can be found:
+ - [REST API](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/restapi)
  - [Event driven pattern](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven)
- - REST API
  - Database per service pattern (coming soon ...)
  - Shared database pattern (coming soon ...)
  - Saga pattern (coming soon ...)

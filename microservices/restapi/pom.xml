@@ -4,18 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mjjaen</groupId>
-    <artifactId>microservices</artifactId>
+    <groupId>org.mjjaen.microservices</groupId>
+    <artifactId>restapi</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <modules>
-        <module>eventdriven</module>
-        <module>restapi</module>
-    </modules>
+    <name>restapi</name>
     <packaging>pom</packaging>
-    <name>microservices</name>
 
     <parent>
-        <artifactId>codingtutorials</artifactId>
+        <artifactId>microservices</artifactId>
         <groupId>org.mjjaen</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
