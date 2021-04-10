@@ -1,0 +1,17 @@
+version: "3.2"
+services:
+  rabbitmq: #docker-compose up -d
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672 #http://localhost:15672/
+    volumes:
+      - ./docker-conf/rabbitmq/log/:/var/log/rabbitmq/
+      - ./docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    networks:
+      - rabbitmq_go_net
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge

@@ -25,6 +25,7 @@
         <module>springdata</module>
         <module>syncasyncserver</module>
         <module>concurrency</module>
+        <module>microservices</module>
     </modules>
 
     <properties>
