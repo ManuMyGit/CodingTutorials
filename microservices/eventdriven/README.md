@@ -78,6 +78,5 @@ Consider the following points when deciding how to implement this pattern:
 
 # About this module
 In this documentation several implementations of this pattern can be found:
- - [RabbitMQ Pub/Sub](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq): complete example about this pattern built in Java using RabbitMQ as broker.
- - Kafka Pub/Sub (coming soon ...)
- - Kafka streaming (coming soon ...)
+ - [RabbitMQ](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq): complete example about this pattern built in Java using RabbitMQ as broker.
+ - [Kafka](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka): complete example about this pattern built in Java using Kafka as broker.
