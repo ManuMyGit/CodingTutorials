@@ -1,0 +1,5 @@
+Public gits to download good docker-compose files
+- https://github.com/conduktor/kafka-stack-docker-compose
+- https://github.com/confluentinc/cp-all-in-one/tree/6.1.1-post/cp-all-in-one
+
+docker exec -it local_kafka1_1 /bin/bash

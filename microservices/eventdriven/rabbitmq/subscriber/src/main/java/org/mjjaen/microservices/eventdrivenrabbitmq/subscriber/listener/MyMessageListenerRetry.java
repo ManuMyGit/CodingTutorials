@@ -2,8 +2,8 @@ package org.mjjaen.microservices.eventdrivenrabbitmq.subscriber.listener;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.log4j.Log4j2;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.businessObject.MessageBody;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.DirectQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.businessObject.MessageBody;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.DirectQueueConfiguration;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;

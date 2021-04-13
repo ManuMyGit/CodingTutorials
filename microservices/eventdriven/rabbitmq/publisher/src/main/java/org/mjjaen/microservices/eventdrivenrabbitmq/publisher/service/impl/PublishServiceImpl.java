@@ -1,11 +1,11 @@
 package org.mjjaen.microservices.eventdrivenrabbitmq.publisher.service.impl;
 
 import lombok.extern.log4j.Log4j2;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.businessObject.MessageBody;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.DirectQueueConfiguration;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.FanoutQueueConfiguration;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.HeaderQueueConfiguration;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.TopicQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.businessObject.MessageBody;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.DirectQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.FanoutQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.HeaderQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.TopicQueueConfiguration;
 import org.mjjaen.microservices.eventdrivenrabbitmq.publisher.service.PublisherService;
 import org.mjjaen.microservices.eventdrivenrabbitmq.publisher.service.SentType;
 import org.mjjaen.microservices.eventdrivenrabbitmq.publisher.utils.Utils;

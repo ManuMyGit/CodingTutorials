@@ -1,4 +1,7 @@
 # RabbitMQ
+RabbitMQ is a message-queueing software also known as a message broker or queue manager. Simply said; it is software where queues are defined, to which applications connect in order to transfer a message or messages.
+
+A message can include any kind of information. It could, for example, have information about a process or task that should start on another application (which could even be on another server), or it could be just a simple text message. The queue-manager software stores the messages until a receiving application connects and takes a message off the queue (or the message expires). The receiving application then processes the message.
 
 ## Definitions
 - Exchange: messages are not published directly to a queue. Instead, the producer sends messages to an exchange. Exchanges are message routing agents, defined by the virtual host within RabbitMQ. An exchange is responsible for routing the messages to different queues with the help of header attributes, bindings, and routing keys.
@@ -54,8 +57,8 @@ The default exchange AMQP brokers must provide for the topic exchange is "amq.he
 
 ## About the example
 The example linked to this tutorial consists of 3 modules and 1 folder:
-1. [Configuration](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq/configuration): this module has the code needed to configure the exchanges, queues and bindings in RabbitMQ, as well as the object message sent in the event.
-2. [Local](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq/local): this folder contains a docker-compose file to be able to run a RabbitMQ server locally without worrying about the installation. To run the server, just type `docker-compose up` and the server will be running in the port 5672 and and UI management in the 15672.
+1. [Configuration](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq/rconfiguration): this module has the code needed to configure the exchanges, queues and bindings in RabbitMQ, as well as the object message sent in the event.
+2. [Local](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq/local): this folder contains a docker-compose file to be able to run a RabbitMQ server locally without worrying about the installation. To run the server, just type `docker-compose up` and the server will be running in the port 5672 and UI management in the 15672.
 3. [Publisher](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/rabbitmq/publisher): this project exposes 4 different APIS running in the port 8080:
    - "/publishFanout": the message will be sent by using a fanout exchange. To use the endpoint, just run a POST call with the URL `http://localhost:8080/publishFanout` and the body `{"message":"myMessage"}`.
    - "/publishTopic": the message will be sent by using a topic exchange. To use the endpoint, just run a POST call with the URL `http://localhost:8080/publishTopic` and the body `{"message":"myMessage"}`. The queues are configured so the message reaches to 2 queues.

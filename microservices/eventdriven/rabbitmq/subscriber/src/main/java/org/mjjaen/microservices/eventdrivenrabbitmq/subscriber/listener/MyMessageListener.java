@@ -2,12 +2,11 @@ package org.mjjaen.microservices.eventdrivenrabbitmq.subscriber.listener;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.log4j.Log4j2;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.businessObject.MessageBody;
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.rabbitconfig.HeaderQueueConfiguration;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.businessObject.MessageBody;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.rabbitconfig.HeaderQueueConfiguration;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 

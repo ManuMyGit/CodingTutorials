@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>org.mjjaen.microservices.eventdriven.rabbitmq</groupId>
-            <artifactId>configuration</artifactId>
+            <artifactId>rconfiguration</artifactId>
             <version>1.0.0-RELEASE</version>
         </dependency>
     </dependencies>

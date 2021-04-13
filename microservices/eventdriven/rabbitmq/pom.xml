@@ -10,7 +10,7 @@
     <modules>
         <module>publisher</module>
         <module>subscriber</module>
-        <module>configuration</module>
+        <module>rconfiguration</module>
     </modules>
     <name>rabbitmq</name>
     <packaging>pom</packaging>

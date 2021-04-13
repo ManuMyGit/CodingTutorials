@@ -1,8 +1,8 @@
 package org.mjjaen.microservices.eventdrivenrabbitmq.publisher.controller;
 
-import org.mjjaen.microservices.eventdrivenrabbitmq.configuration.businessObject.MessageBody;
 import org.mjjaen.microservices.eventdrivenrabbitmq.publisher.service.PublisherService;
 import org.mjjaen.microservices.eventdrivenrabbitmq.publisher.service.SentType;
+import org.mjjaen.microservices.eventdrivenrabbitmq.rconfiguration.businessObject.MessageBody;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.MessagePropertiesBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
