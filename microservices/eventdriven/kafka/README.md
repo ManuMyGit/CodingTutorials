@@ -42,7 +42,7 @@ A topic in Kafka is the base of everything. It is a particular stream of data:
 
 Here is a representation of topic, partitions and offsets:
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/images/image3.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image3.png)
 
 Let's see an example. Let's thing of Uber:
 - Uber has lots of cars running at anytime, and the company needs to know the position of every single car.
@@ -67,7 +67,7 @@ Let's say that we have 3 brokers and a topic called `"my-topic"` with 3 partitio
 
 As we can see, there is no relationship between brokers and partitions. What if we have a topic with less partitions than brokers? Well, there will be brokers with no data of that topic. What if we have a topic with more partitions than brokers? Well, there will be at least 1 broker with more than 1 partition of that topic. Here we can see the 3 scenarios:
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/images/image2.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image2.png)
 
 ## Topic replication
 As we've seen, Kafka is a distributed system. And when there is a distributed system, we need replication so if a machine goes down, the data is still available, the data can be served by another server.
@@ -78,7 +78,7 @@ As any other distributed system, at any time only one broker can be a leader for
 
 In the following example, we show 3 brokers with 1 topic with 2 partitions and factor replica = 2 (leader partition in blue, replica in red):
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/images/image1.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image1.png)
 
 What happens if we lose Broker 1? Well, Broker 0 will keep serving Partition 0 as (the replica got lost) and Broker 2 will be serving Partition 1 thanks to the replica.
 
@@ -115,7 +115,7 @@ Consumers can group to build consumer groups:
 
 In the following example we have 1 topic with 3 partitions read by 3 different consumer groups:
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/images/image4.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image4.png)
 
 ## Consumer offsets & delivery semantics
 - Kafka stores the offsets at which a consumer group has been reading.
@@ -173,7 +173,7 @@ That means that we should use always the latest client library as long as we can
 ## Summarize
 Let's see the following picture to summarize everything we know so far:
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/images/image5.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image5.png)
 
 # Kafka CLI
 ## Kafka topics
