@@ -175,6 +175,178 @@ Let's see the following picture to summarize everything we know so far:
 
 ![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image5.png)
 
+# Kakfa advanced
+## Kafka Connect
+Kafka connect is all about code & connection re-use. We're not the ones who want to try to get data from a specific source (like Twitter). We're not the ones who want to store the data in some database (like Mongo, or ElasticSearch), and we can guarantee that we're not the ones to include some bugs in our code.
+
+What if we could use something that is already built and working? Well, this is Kafka connect.
+
+Why do we even need Kafka Connect API? When we look at Kafka, there are 3 common cases:
+- Source -> Kafka: Producer API (Kafka Connect Source).
+- Kafka -> Kafka: Consumer, Producer API (Kafka Streams).
+- Kafka -> Sink: Consumer API (Kafka Connect Sink).
+
+So the goals of Kafka connect are:
+- Simplify and improve getting data in and out of Kafka.
+- Simplify transforming data within Kafka without relying on external libs.
+
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/microservices/eventdriven/kafka/images/image6.png)
+
+## Kakfa Streams
+Kafka streams are used to manipulate the data in some way (data transformation, data enrichment, fraud detection, monitoring and alerting, ...), so the source and the sink is the own broker. Basically, kafka streams are easy data processing and transformation library within kafka:
+- Standard Java application.
+- No need to create a separate cluster.
+- Highly scalable, elastic and fault tolerant.
+- Exactly once capabilities.
+- One record at a time processing (no batches).
+
+## Kafka schema registry
+Kafka takes bytes as an input and publishes them, but there is no data verification in Kafka. So, what if producer sends bad data, or a field gets renamed, or the data format changes? That's why we need a schema registry:
+- We need data to be self describable.
+- We need to be able to evolve data without breaking downstream consumers.
+
+What if Kafka brokers were verifying the messages upon receiving them? Well, it would break what makes Kafka so good:
+- Kafka doesn't parse or even read our data (no CPU ussage).
+- Kafka takes bytes as an input without loading them into memory.
+- Kafka distributed bytes.
+- As far as Kafka is connected, it doesn't even know if our data is a integer, string, ...
+
+The schema registry:
+- Has to be a separate component.
+- Producers and Consumers need to be able to talk to it.
+- Must be able to reject bad data.
+- A common data format must be agreed upon (support schemas, evolution and be lightweight).
+
+## Partitions count and replicate factor
+These parameters are the most important ones when creating a topic. They impact performance and durability of the system overall.
+- Modify the number of partitions breaks the key ordering guarantees, it is best to get the parameters right the first time.
+- If the replication factor increases during a topic lifecycle, we put more pressure on our cluster, which can lead to unexpected performance decrease.
+
+For partition counts:
+- Each partition can handle a throughput of a few MB/s (it must be measure by ourselves since it depends on the hardware, network, ...).
+- More partitions implies:
+  - Better parallelism, better throughput.
+  - Ability to run more consumers in a group to scale. If we have 3 partitions for instance, we are limited to 3 consumers in a group. If we expect high throughput, we will need a large number of partitions.
+  - Ability to leverage more brokers if we have a large cluster. The more partitions we have, the more brokers we will use. If we have for instance 20 brokers and we create 2 partitions, only 2 brokers will be working on this topic.
+  - But, the more partitions we have, the more elections to perform for Zookeeper, and more files will get opened in Kafka.
+
+The guidelines for partition counts are:
+- Small cluster (< 6 brokers): partitions = 2 x number of brokers.
+- Medium (>= 6 brokers and <= 12 brokers): depending on the situation, but a good approximation of partitions is 12.
+- Big cluster (> 12 brokers): partitions = number of brokers
+- Adjust for number of consumers we need to run in parallel at peak throughput: if our consumers are gonna be very busy, very CPU intense, and we need for instance 20 consumers at peak time, then we'll need 20 partitions regardless the size of the broker.
+- Adjust for producer throughput: increase if super-high throughput or projected increase in the next 2 years. For instance, 3 types instead of 2.
+- Every Kafka cluster will have different performance, so test is very important.
+
+For replication factor:
+- Should be at least 2, usually 3, maximum 4.
+- The higher the replication factor (N):
+  - Better resilience of our system (N - 1 brokers can fail).
+  - But more replication implies higher latency if acks = all and more disk space of our system..
+
+The guidelines for replication factor are:
+- Set it to 3 to get started (it means to have at least 3 brokers for that).
+- If replication performance is an issue, get a getter broker instead of less replication factor.
+- Never set it to 1 in production.
+
+General guidelines:
+- It is pretty much accepted that a broker should not hold more than 2000 to 4000 partitions (across all topics of that broker).
+- Additionally, a Kafka cluster should have a maximum of 20000 partitions across all brokers.
+- The reason is that in case of brokers going down, Zookeeper needs to perform a lot of leader elections.
+- If we need more partitions in our cluster, add brokers instead.
+- If we need more than 20000 partitions in our cluster, follow the Netflix model and create more Kafka clusters.
+- Overall, we don't need a topic with 1000 partitions to achieve high throughput. Start at a reasonable number and test the performance.
+
+## Partitions, segments and indexes
+- As we know, topics are made of partitions. But what are partitions made of? They are made of segments.
+- Segments are literally files.
+- Each partition consists of several segments. Each segment takes care of a certain group of offsets.
+- The last segment is called the active one, because data is writen in that segment. Once the segment is full, it is closed, a new one is created and that segment becomes the active one. Only one segment is active at a time.
+
+There are two settins linked to segments:
+- log.segment.bytes: the maximum size of a single segment in bytes.
+  - By default 1GB.
+- log.segment.ms: the time Kafka will wait before committing the segment if not full.
+  - By default 1 week.
+
+Segments come with two indexes (files):
+- An offset to position index: it allowes Kafka where to read to find a message.
+- A timestamp to offset index: it allows Kafka to find a message with a timestamp.
+
+Therefore, Kafka knows where to find data in a constant time.
+
+Why should we care about segments?
+- A smaller log.segment.bytes means more segments per partition. That means that log Compaction happens more often and Kafka needs to keep more files opened (which could lead to errors).
+- A smaller log.segments.ms more frecuency for log compaction (more frequent triggers) and we'll get more files.
+
+## Log cleanup policies
+Many kafka clusters make data expire according to a policy. That is called log cleanup. To configure the policy we have the `log.cleanup.policy`.
+- Kafka default for all user topics: delete.
+  - Delete base on age data, by default 1 week.
+  - Delete based in max size, by default -1 = infinite.
+- Kafka defualt for topic __consumer_offsets: compact.
+  - Delete based on keys of our messages.
+  - It'll delete old duplicate keys after the active segment is committed.
+
+Delete data from Kafka allowes us:
+- Control the size of data on the disk, deleting obsolete data.
+- Overall, limit maintenance work on the Kafka Cluster.
+
+Log clueanup happens on our partition segments, so the smaller the segment size, the more segments will be created, and the more segments, the more log cleanup will happen more often. The gotcha is that log cleanup shouldn't happen very often because it takes CPU and RAM resources. Just out of curiosity, the cleaner checks job runs every 15 seconds (`log.cleaner.backoff.ms`), to check whether a log cleanup is needed or not.
+
+### Log cleanup policy: delete
+- `log.retention.hours`: number of hours to keep data for.
+  - By default 168 (1 week).
+  - Higher number means more disk space (the information is delete less often).
+  - Lower number means that less data is reatined (if the consumers are down for too long, they can miss data).
+- `log.retention.bytes`: max size in bytes for each partition.
+  - By default -1 = infinite.
+  - Useful to keep a log under a threshold.
+
+Basically, old segment (old data) will be deleted based on time or space rules. New data is written to the active segment.
+
+There are two common strategies:
+- One week of retention (no matter the size of the data). This is the default configuration.
+- Infinite time of retention bounded by a specific limit, for instance, 500MB. That way, the information won't be deleted if there is no need to because we have enough space:
+  - `log.retention.hours=18000` and `log.retention.bytes=524288000` (500MB).
+
+### Log cleanup policy: compact
+Log compaction ensures that our logs contain at least the last known value for a specific key within a partition.
+- It is very useful if we just require a SNAPSHOT instead of full history (such as for data table in a database).
+- The idea is that we only keep the last update for a key in our log.
+
+Let's say that in segment 0 we have salaries for some people. Then, we get newest salaries for those people in segment 1. After compaction, the people in segment 0 whose salary has been inserted in segment 1 will be deleted.
+
+Log compaction guarantees:
+- Any consumer that is reading from the tail of a log (most current data) will still see all the messages sent to the topic. So basically consumers will see the data as usual.
+- Ordering of messages is kept, log compaction only removes some messages, but does not re-order them.
+- The offset of a message is immutable (it never changes). Offset are just skipped if a message is missing.
+- Deleted records can still be seen by consumers for a period of `delete.retention.ms` (by default 24 hours).
+
+Log compaction:
+- Doesn't prevent us from publishing duplicate data to Kafka.
+  - De-duplication is done after a segment is committed.
+  - Consumers will still read from tail as soon as the data arrives.
+- Doesn't prevenet us from reading duplicate data from Kafka.
+- Can fail from time to time.
+  - It is an optimization and the compaction thread might crash.
+  - Make sure to assign enough memory to it and that it is triggered.
+  - Restart Kafka if it is broken.
+- It can't be triggered by an API call.
+
+To activate log compaction:
+- `log.cleanup.policy=compact`
+- `segment.ms`: max amount of time to wait to close active segment.
+  - By default 1 week.
+- `segment.bytes`: max size of a segment.
+  - By default 1 GB.
+- `min.compaction.lag.ms`: how long to wait before a message can be compacted.
+  - By default 0.
+- `delete.retention.ms`: wait before deleting data marked for compaction.
+  - By default 24 hours.
+- `min.cleanable.dirty.ratio`: higher -> less, more efficient cleaning. Lower -> opposite.
+  - By default 0.5. 
+
 # Kafka CLI
 ## Kafka topics
 - Command: `kafka-topics`
@@ -223,11 +395,76 @@ Let's see the following picture to summarize everything we know so far:
   - `--to-current`: reset offsets to current offset.
 
 ## Kafka configuration
-To fully configure producers and consumers we have the Kafka documentation:
-- [Producers](https://kafka.apache.org/documentation/#producerconfigs)
-- [Consumers](https://kafka.apache.org/documentation/#consumerconfigs)
+- Command: `kafka-configs`
+- This command adds/removes entity config for a topic, client, user or broker.
+- List configuration for a specific topic: `kafka-configs -bootstrap-server localhost:9092 --entity-type topics --entity-name topic_name --descbire`
+- Add specific configuration for a topic (min insync replicas in the example): `kafka-configs -bootstrap-server localhost:9092 --entity-type topics --entity-name topic_name --add-config min.insync.replicas=2 --alter`
+- Delete specific configuration for a topic (min insync replcias in the example): `kafka-configs -bootstrap-server localhost:9092 --entity-type topics --entity-name topic_name --delete-config min.insync.replicas=2 --alter`
 
-## About the example
+To fully configure producers and consumers we have the Kafka documentation:
+- [Producers](https://kafka.apache.org/documentation/#producerconfigs). Here the most important configuration:
+  - `acks`:
+    - 0 (no ack): no response is requested from the producer. Useful for data where it's okay to potentially losing messages, like metrics or logs. Nice in performance because the broker never replies.
+    - 1 (leader ack): only the leader send the ack from the broker. If the leader goes down before the data is replicated, the data will get lost. If there is no ack, the producer may retry.
+    - all (leader and replicas ack): most secure option but worse in performance, since both leader and replicas need to send the ack. There is no data loss if there are enough replicas online.
+  - `min.insync.replicas`: it can be set up at broker or topic level. It is mandatory to use with acks = all. It specifies the number of replicas which must send back the ack so the leader can ack the message. For instance, if its value = 2, it means that at least 2 brokers that are ISR (including the leader) must respond that they have the data. Another example, if we use replication.factor = 3, min.insync.replicas = 2 and acks = all, we can tolerate only 1 broker going down, otherwise the producer will receive an exception on send.
+  - `retries`: when we have failures on our the producer, there is an implicit retry mechanism so the message is retried automatically by the producer.
+    - By default = 0 with Kafka <= 2.0 or Integer.MAX_VALUE >= 2.1.
+  - `retries.backoff.ms`: number of ms between retries by the producer.
+    - By default 100ms.
+  - `delivery.timeout.ms`: number of ms when the message will be retried. The attempts won't happen forever, over and over again, the retry mechanism will retry the message up to this number of ms. There will be a message loss if the ack can't be achieved within the time defined in this param.
+    - By default 120000 ms (2 minutes), which means the message will be retried every 100ms up to 2 minutes (around 1200 attempts).
+  - `max.in.flight.requests.per.connection`: in case of retries, there is a chance that messages will be sent out of order. If we rely on key-based ordering, that can be an issue. With this parameter we can configure how many produce requests can be made in parallel.
+    - By default 5.
+    - Set it to 1 if we need to ensure order strictly. But it may impact throughput since we're processing just 1 message at a time.
+  - `enable.idempotence`: with Kafka >= 1.0.0 we can configure our producers to be idempotent. That means that if by any chance there is a client timeout between producer and broker, which means the brocker acked the message the that ack never reached the producer, when the producer retries the message is not gonna be written again into the broker. Thanks to an internal idempotence key, the broker will know that the message was previously written and it'll send the ack right away.
+  - `compression.type`: messages are sent compressed. That may impact the throughput because the messages must be sent compressed by the producer and then decompressed by the consumer. To take advantage of the compression, we need to send messages in batches (instead of 1 by 1). The bigger the size of the batch is, the more effective the compression is.
+    - By default is 'none'. Potential values are 'gzip', 'lz4' and 'snappy'.
+    - The compressed batch has the following advantages over the individual messages compression: much smaller producer request size, faster to transfer data over the network => less latency, better throughput, better disk utilization in Kafka (stored messages on disk are smaller).
+  - `batch.size`: by default Kafka tries to send a message as soon as possible. For instance, if we can have 5 requests in parallel, if all of them are in flight, Kafka is smart enough to start batching the messages while they wait to send them all at once. This parameter indicates the size of the batch, because if a batch is full (even the linger.ms is not reached yet), the batch will be sent to Kafka right away.
+    - By default 16Kb.
+    - Increasing the size to 32Kb or 64Kb can help increasing the throughput, compression and efficiency of requests.
+    - Any message bigger than the batch size won't be batched.
+    - A batch is allocated per partition, so make sure not to set it to a number that's too high.
+  - `linger.ms`: number of ms a producer is willing to wait after sending a batch out. By introducing some lag (for instance 5), we increase the chances of messages being sent together in a batch. So at the expense of introducing a small delay, we can increase throughput, compression and efficiency of our producer.
+    - By default 0.
+  - A safe configuration is `enable.idempotence=true` (producer level), `min.insync.replicas=2` (broker/topic level), `acks=all`, `retries=MAX_INT`, `max.in.flight.messages.per.connection=5`. Running a safe producer may impact throughput and latency, so we always need to test the configuration before running it in PRO.
+- [Consumers](https://kafka.apache.org/documentation/#consumerconfigs)
+  - `auto.offset.reset`: this paramater defines the behavior of the consumer when there is no committed position (which would be the case when the group is first initialized) or when an offset is out of range.
+    - earliest: will read from the beginning of the log. 
+    - latest: will read from the end of the log.
+    - none: will throw an exception if no offset is found.
+    - In case we need to replay the data again, we need to stop our consumer and restart the offsets (see reset command from the CLI section).
+  - `fetch.min.bytes`: control how much data you want to pool at least on each request.
+    - By default 1.
+    - Help improving throughput and decreasing number of requests at the cost of latency.
+  - `max.poll.records`: control how many records to receive per poll request.
+    - By default 500.
+    - Increase if the messages are very small and have a lot of available RAM.
+  - `max.partitions.fetch.bytes`: maximum data returned by the broker per partition.
+    - By default 1 MB.
+    - If we read from 100 partitions, we'll need a lot of RAM.
+  - `fetch.max.bytes`: maximum data returned for each request (covers multiple partitions).
+    - By default 50MB.
+    - The consumer performs multiple fetches in parallel.
+  - `offset.retention.minutees`: number of minutes kafka keeps the offsets.
+    - Default value 7 days (10080 minutes).
+  - `session.timeout.ms`: the max time the broker can be without a hearbeat (health check) of a consumer before it is considered dead.
+    - By default 10 seconds.
+    - Set lower to faster consumer rebalances.
+  - `heartbeat.interval.ms`: how often the consumer group sends the hearbeat to the broker.
+    - By default 3 seconds.
+    - General rule, 1/3 of session.timeout.ms.
+    - This mechanism is used to detect a consumer application being down.
+  - `max.poll.interval.ms`: maximum amount of time between two .poll() calls before declaring the consumer dead.
+    - By default 5 minutes.
+    - This is particular relevant for Big Data.
+    - This mechanism is used to detect a data processing issue with the consumer.
+  - Offset commitment strategies:
+    1. `enable.auto.commit=true` & synchronous processing of batches. Offset will be comitted regularly for us (`auto.commit.interval.ms=5000` by default). If we don't use sync processing, we'll be in "at-most-once" behavior because offsets will be commited before the data is processed.
+    2. `enable.auto.commit=false` & synchronous processing of batches. Offset will be comitted after the data is processed. Strategy at-leas-once.  
+
+# About the example
 The example linked to this tutorial consists of 3 modules and 1 folder:
 1. [Local](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/local): this folder contains a docker-compose file to be able to run a Kafka & Zookeeper server locally without worrying about the installation. To run the server, just type `docker-compose up` and the Kafka server will be running in the port 9092 and Zookeeper in the 2181.  
 2. [Producer](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/producer): this project exposes an API in the port 8080 to write messages to Kafka.
@@ -237,3 +474,6 @@ The example linked to this tutorial consists of 3 modules and 1 folder:
    - The first one is called MyKafkaConsumer. This class implements the interface AcknowledgingMessageListener and is linked to the messageListenerContainer for a specific topic.
    - The second one is called KafkaConsumers. We use the Spring annotation @KafkaListener to create another consumer.
    - The third one is called ConsumerServiceImpl. The consumer is create here by using the KafkaConsumer class. A fixed thread pool is used to run this task concurrently.
+4. [Twitter producer]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterproducer)): this projects creates a producer by using tweets from tweeter.
+5. [Elastic Search consumer]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/elasticsearchconsumer)): this projects creates a consumer to read tweets from the broker and save them into Elastic Search.
+6. [Twitter streams]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterstreams)): this projects creates a stream to read tweets from the broker, filter them by using number of retweets as criteria and storing them into a new topic.

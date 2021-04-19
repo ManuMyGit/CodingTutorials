@@ -19,13 +19,4 @@ public class ProducerApplication //implements CommandLineRunner
     {
         SpringApplication.run(ProducerApplication.class, args);
     }
-
-    /*@Override
-    public void run(String... args) throws Exception {
-        MyMessage myMessage = new MyMessage();
-        for(int i = 0; i < 5; i ++){
-            myMessage.setMessage("Message " + i);
-            producerService.sendMessage("my_topic", null, myMessage, false, true);
-        }
-    }*/
 }

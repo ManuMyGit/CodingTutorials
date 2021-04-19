@@ -10,3 +10,6 @@ The body of the message is just a simple Json with a field. Ex: `{"message":"any
 The logic to send the messages can be found inside the ProducerServiceImpl class:  
 - The method sendMessage makes use of a kafkaProducer or kafkaTemplate object depending on the endpoint.
 - Both the KafkaProducer and the KafkaTemplate beans are created in the KafkaConfiguration class.
+
+Before using the API, we recommend to get the topic created in the broker (the topic is part of the request). To do that, we can use the following command to create a topic with 3 partitions and replication factor 1 (because there is just 1 broker running) within the broker:
+- `kafka-topics --bootstrap-server localhost:9092 --topic my_topic --create --partitions 3 --replication-factor 1`
