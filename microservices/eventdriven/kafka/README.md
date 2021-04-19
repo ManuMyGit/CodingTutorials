@@ -474,6 +474,6 @@ The example linked to this tutorial consists of 3 modules and 1 folder:
    - The first one is called MyKafkaConsumer. This class implements the interface AcknowledgingMessageListener and is linked to the messageListenerContainer for a specific topic.
    - The second one is called KafkaConsumers. We use the Spring annotation @KafkaListener to create another consumer.
    - The third one is called ConsumerServiceImpl. The consumer is create here by using the KafkaConsumer class. A fixed thread pool is used to run this task concurrently.
-4. [Twitter producer]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterproducer)): this projects creates a producer by using tweets from tweeter.
-5. [Elastic Search consumer]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/elasticsearchconsumer)): this projects creates a consumer to read tweets from the broker and save them into Elastic Search.
-6. [Twitter streams]((https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterstreams)): this projects creates a stream to read tweets from the broker, filter them by using number of retweets as criteria and storing them into a new topic.
+4. [Twitter producer](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterproducer): this projects creates a producer by using tweets from tweeter.
+5. [Elastic Search consumer](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/elasticsearchconsumer): this projects creates a consumer to read tweets from the broker and save them into Elastic Search.
+6. [Twitter streams](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices/eventdriven/kafka/twitterstreams): this projects creates a stream to read tweets from the broker, filter them by using number of retweets as criteria and storing them into a new topic.
