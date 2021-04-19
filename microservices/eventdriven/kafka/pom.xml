@@ -13,7 +13,7 @@
         <module>consumer</module>
         <module>twitterproducer</module>
         <module>elasticsearchconsumer</module>
-        <module>twitterstrams</module>
+        <module>twitterstreams</module>
     </modules>
     <name>kafka</name>
 
