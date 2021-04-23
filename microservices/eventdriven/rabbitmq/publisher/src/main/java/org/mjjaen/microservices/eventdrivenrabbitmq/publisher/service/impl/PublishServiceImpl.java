@@ -29,7 +29,7 @@ public class PublishServiceImpl implements PublisherService {
         boolean sent = false;
         Message message = messageConverter.toMessage(messageBody, Utils.createMessageProperties(defaultMessageProperties));
         try {
-            log.info("Sending message [id=/"+ message.getMessageProperties().getMessageId() + "]: " + message.getBody());
+            log.info("Sending message [id=/"+ message.getMessageProperties().getMessageId() + "]: " + messageBody.getMessage());
             if(sentType.equals(SentType.FANOUT))
                 rabbitTemplate.convertAndSend(FanoutQueueConfiguration.FANOUT_EXCHANGE, "", message);
             else if(sentType.equals(SentType.TOPIC))
