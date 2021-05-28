@@ -26,6 +26,7 @@
         <module>syncasyncserver</module>
         <module>concurrency</module>
         <module>microservices</module>
+        <module>algorithmics</module>
     </modules>
 
     <properties>
