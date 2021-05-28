@@ -423,7 +423,7 @@ public void permutation(String str, String prefix) {
 
 Let's see first how the algorithm would behave with a simple example: permutation("abc", "").
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/algorithmics/images/picture01.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/algorithmics/images/picture01.png)
 
 As we can see, permutation function is called 6 times on its base case, which makes total sense because what the algorithm does is to "remove" one letter from the string and to call itself with length-1 times, so the base case is called 3 * 2 * 1 times = 3! times.
 
@@ -493,7 +493,7 @@ int fib(int n, int[] memo) {
 
 What this algorithm does is to calculate the fibonacci number but thanks to the memo array, it doesn't go through the numbers whose fib was already calculated. Let's focus first on the fib function. What happens if we call this function with the value 4?
 
-![](https://github.com/ManuMyGit/CodingTutorials/tree/main/algorithmics/images/picture02.png)
+![](https://github.com/ManuMyGit/CodingTutorials/blob/main/algorithmics/images/picture02.png)
 
 As we can see, there is no ramification since fib(2) was already calculated in the left branch. The action of retrieving the result for fib(2) is O(1), because the access to the array is immediate. Hence, the time complexity of this algorithm is not O(2 ^ N), but O(N).
 
