@@ -8,7 +8,7 @@ But, what does it mean for a solution to be better? Basically we prefer solution
 In general, we want to minimize both time and space complexity.
 
 ## The problem
-However, the amount of time a algorithm takes to run depends on a lot of factors:
+However, the amount of time an algorithm takes to run depends on a lot of factors:
 - Machine resources (RAM, CPU).
 - Number of processes running at the same time.
 - Single core vs multi core.
@@ -55,7 +55,8 @@ Let's see the following complexities:
 There are several rules we can apply to simplify the time and space analysis of algorithms.
 
 ### Product rule
-This rule says that if the Big O is the product of multiple terms, we can drop the constant term. Let's see the following examples:
+This rule says that if the Big O is the product of multiple terms, we can drop the constant term. Constants don't matter. Let's see the following examples:
+ - `O(500) => O(1 * 500) = O(1)`
  - `O(4N) => O(N)`
  - `O(N/3) = O(N * (1/3)) => O(N)`
  - `O(5 * N * N) = O(5 * N^2) => O(N^2)`
@@ -67,6 +68,12 @@ This rule says that if the Big O is the sum of multiple terms, only keep the lar
 
 Let's see the following example where we apply both rules:
  - `O(5N ^ 2 + 100N + 17)` => (product rule) `O(N ^ 2 + N + 17)` => (sum rule) `O(N^2)`.
+
+### Shorthands
+ - Arithmetic operations are constant: O(1).
+ - Variable assignment is constant: O(1).
+ - Accessing elements in an array (by index) or object (by key) is constant: O(1).
+ - In a loop, the complexity is the length of the loop times the complexity of whatever happens inside the loop. 
 
 ### Multipart algorithms: add vs multiply
 Let's suppose we have two arrays, with two different sizes A and B, and we have the two following algorithms:
@@ -97,7 +104,7 @@ Basically:
 ## Log N Runtimes
 We commonly see O(log N) in runtimes. Where does this come from?
 
-Let's look at binary search as an example. In binary search, we are looking for an example x in an N-element sorted array. We first compare x to the midpoint of the array. If x == middle, then we return. If x < middle, then we search on the left side of the array. If x > middle, then we search on the right side of the array.
+Let's look at a binary search as an example. In binary search, we are looking for an example x in an N-element sorted array. We first compare x to the midpoint of the array. If x == middle, then we return. If x < middle, then we search on the left side of the array. If x > middle, then we search on the right side of the array.
 
 We start off with an N-element array to search. Then, after a single step, we're down to N / 2 elements. One more step, and we're down to N / 4 elements. We stop when we either find the value or we're down to just one element.
 
@@ -108,7 +115,7 @@ The total runtime is then a matter of how many steps (dividing N by 2 each time)
  - N = 2 //divide by 2
  - N 1
 
-What is k in the expression `2 ^ k = N`? This is exactly what log expresses. 2 ^ K = 16 -> log(base 2) l6 = 4 -> log(base 2) N = k -> 2k = N.
+What is k in the expression `2 ^ k = N`? This is exactly what log expresses. 2 ^ K = 16 -> log(base 2) 16 = 4 -> log(base 2) N = k -> 2 ^ k = N.
 
 This is a good takeaway for us to have. When we see a problem where the number of elements in the problem space gets halved each time, that will likely be a 0(log N) runtime.
 
@@ -129,7 +136,7 @@ Let's derive the runtime by walking through the code. Suppose we call f(4).
 How many calls are in this tree for f(4)? The tree will have depth N. Each node (i.e., function call) has two children. Therefore, each level will have twice as many calls as the one above it.The number of nodes on each level is:
  - Level 0: f(4) -> 1 node
  - Level 1: f(3) + f(3) -> 2 nodes.
- - Leve 2: f(2) + f(2) + f(2) + f(2) -> 4 nodes.
+ - Level 2: f(2) + f(2) + f(2) + f(2) -> 4 nodes.
  - Level 3: f(1) + f(1) + f(1) + f(1) + f(1) + f(1) + f(1) + f(1) -> 8 nodes.
 
 Therefore, there will be `2^0 + 2^1 + 2^2 + 2^3 + 2^4 + ... + 2 ^ N`. This is equal to `2 ^ (N + 1) - 1` nodes. Generally speaking, when we have a recursive function that makes multiple calls, the runtime will often (but not always) look like O(branches  * depth), where branches is the number of times each recursive call is called. In this case, this gives us `O(2 ^ N)`, where branches = 2 (number of calls to the recursive function per recursion) and N is the input (depth).
@@ -159,6 +166,17 @@ public int calculateAverage(int[] numbers) {
    - `sum += aux;` is executed just once per loop -> O(1).
 
 O(function) = O(1 + 1 + N * (1 * 1 * 1 * 1)) = O(N).
+
+# Space complexity
+## Definition
+When talking about space complexity there are two type of approaches:
+ - Space complexity: space required by the algorithm and the inputs.
+ - Auxiliary space complesity: space required by the algorithm, not including space taken up by the inputs. Basically, to focus on what's happening inside the algorithm.
+
+## Rules of thumb
+ - Most primitive types (boolean, numbers, undefined, null) are constant space.
+ - Strings require O(N) space (where N is the string length).
+ - Reference types (arrays and objects) are generally O(N), where N is the length for arrays and the number of keys (properties) for objects.
 
 # Examples
 ## Example 1
@@ -527,3 +545,36 @@ Let's see it in another way. When N = 50, function was called 6 times. With N = 
  - powersOf2(60) -> powersOf2(30) -> powersOf2(15) -> powersOf2(7) -> powersOf2(3) -> powersOf2(1).
 
 When there will be another call to the function? The function will be called again when N doubles. Every time N doubles, the number of calls gets increased once. Then, 2 ^ (number of calls) = N. Remember that Log (base a) b = c -> a ^ c = b. Hence, number of calls = log (base 2) N. Hence, the time complexity is O(log N).
+
+# Big O and JavaScript
+## Rules of thumb
+In JavaScript, Big O of objects, which are basically collections of unordered key-value elements, are:
+ - Insertion: O(1).
+ - Removal: O(1).
+ - Searching: O(N).
+ - Access: O(1).
+
+Some of the methods Object provides:
+ - Object.keys(object): O(N).
+ - Object.values(object): O(N).
+ - Object.entries(object): O(N).
+ - object.hasOwnProperty(key): O(1).
+
+In JavaScript, Big O of arrays, which are basically a collection of ordered elements, are:
+ - Insertion at the beginning: O(N).
+ - Insertion at the end: O(1).
+ - Removal at the beginning: O(N).
+ - Removal at the end: O(1).
+ - Searching: O(N).
+ - Access: O(1).
+
+Some of the methods for arrays:
+ - push (add data at the end of the array): O(1).
+ - pop (remove data at the end of the array): O(1).
+ - shift (remove data at the beginning of the array): O(N).
+ - unshift (add data at the begining of the array): O(N).
+ - concat (merge two arrays): O(N).
+ - slice (return a copy of a part of the array): O(N).
+ - splice (remove and add elements to the array): O(N).
+ - sort (order an array): O(N * log N).
+ - forEach/map/filter/reduce/...: O(N).
