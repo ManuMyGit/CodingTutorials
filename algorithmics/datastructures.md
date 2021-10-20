@@ -67,7 +67,7 @@ Cons of singly linked list:
 Average | O(N) | O(N) | O(1) | O(1)
 Worst | O(N) | O(N) | O(1) | O(1)
 
-- Note: deletion at tail of in the middle is O(N)
+- Note: deletion at tail or in the middle is O(N)
 
 # Doubly Linked List
 ## Introduction
