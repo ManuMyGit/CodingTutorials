@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 @Service
 @Log4j2
 public class ConsumerServiceImpl implements ConsumerService {
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     @Autowired
     private Consumer<String, String> kafkaConsumer;

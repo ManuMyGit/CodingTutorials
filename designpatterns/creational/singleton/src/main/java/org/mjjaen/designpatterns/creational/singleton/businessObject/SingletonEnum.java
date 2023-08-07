@@ -14,7 +14,7 @@ public enum SingletonEnum implements Motorbike {
 	private String brand;
 	private String capacity;
 	
-	private SingletonEnum() {}
+	SingletonEnum() {}
 	
 	public String getBrand() {
 		return this.brand;

@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @Slf4j
 public class ScheduledPoolMonitor implements Runnable {
-    private ThreadPoolExecutor executor;
+    private final ThreadPoolExecutor executor;
 
     public ScheduledPoolMonitor(ThreadPoolExecutor executor) {
         this.executor = executor;

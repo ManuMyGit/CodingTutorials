@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 @Slf4j
 public class ThreadLocalExample implements Executable {
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     @Override
     public void execute(Object obect) {

@@ -106,7 +106,7 @@ Let's assume we have the following code:
 
 ```java
 public class User {
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(10);
     public static void main(String [] args) throws InterruptedException {
         for(int i = 0; i < 1000; i ++) {
             int id = i;
@@ -488,32 +488,36 @@ Let's see another example with the RecursiveAction class:
 
 ```java
 public class CustomRecursiveAction extends RecursiveAction {
-    private String workload = "";
-    private static final int THRESHOLD = 4;
-    private static Logger logger = Logger.getAnonymousLogger();
-    public CustomRecursiveAction(String workload) {
-        this.workload = workload;
+  private String workload = "";
+  private static final int THRESHOLD = 4;
+  private static final Logger logger = Logger.getAnonymousLogger();
+
+  public CustomRecursiveAction(String workload) {
+    this.workload = workload;
+  }
+
+  @Override
+  protected void compute() {
+    if (workload.length() > THRESHOLD) {
+      ForkJoinTask.invokeAll(createSubtasks());
+    } else {
+      processing(workload);
     }
-    @Override
-    protected void compute() {
-        if (workload.length() > THRESHOLD) {
-            ForkJoinTask.invokeAll(createSubtasks());
-        } else {
-           processing(workload);
-        }
-    }
-    private List<CustomRecursiveAction> createSubtasks() {
-        List<CustomRecursiveAction> subtasks = new ArrayList<>();
-        String partOne = workload.substring(0, workload.length() / 2);
-        String partTwo = workload.substring(workload.length() / 2, workload.length());
-        subtasks.add(new CustomRecursiveAction(partOne));
-        subtasks.add(new CustomRecursiveAction(partTwo));
-        return subtasks;
-    }`
-    private void processing(String work) {
-        String result = work.toUpperCase();
-        logger.info("This result - (" + result + ") - was processed by " + Thread.currentThread().getName());
-    }
+  }
+
+  private List<CustomRecursiveAction> createSubtasks() {
+    List<CustomRecursiveAction> subtasks = new ArrayList<>();
+    String partOne = workload.substring(0, workload.length() / 2);
+    String partTwo = workload.substring(workload.length() / 2);
+    subtasks.add(new CustomRecursiveAction(partOne));
+    subtasks.add(new CustomRecursiveAction(partTwo));
+    return subtasks;
+  }`
+
+  private void processing(String work) {
+    String result = work.toUpperCase();
+    logger.info("This result - (" + result + ") - was processed by " + Thread.currentThread().getName());
+  }
 }
 ```
 

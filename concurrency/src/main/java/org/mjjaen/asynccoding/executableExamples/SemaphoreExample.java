@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 @Slf4j
 public class SemaphoreExample implements Executable {
     //Lock managemnet by using the Semaphore
-    private Semaphore semaphore = new Semaphore(1, true);
+    private final Semaphore semaphore = new Semaphore(1, true);
     public static Stack<Integer> stack = new Stack<>();
 
     @Override

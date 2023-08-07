@@ -5,7 +5,7 @@ package org.mjjaen.designpatterns.creational.singleton.businessObject;
  * gestionar excepciones
  */
 public class SingletonStaticBlock {
-	private static Motorbike instance;
+	private static final Motorbike instance;
 	
 	static {
 		try {

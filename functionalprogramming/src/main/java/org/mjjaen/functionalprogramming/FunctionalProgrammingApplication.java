@@ -174,7 +174,7 @@ public class FunctionalProgrammingApplication implements CommandLineRunner  {
     	for(Integer number : list) {
     		System.out.print(number + " ");
     	}
-    	System.out.println("");
+    	System.out.println();
     	System.out.println("First element");
     	list.stream().findFirst().ifPresent(System.out::println);
     	System.out.println("Filter an element");

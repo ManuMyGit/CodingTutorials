@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class CustomerPrototypeManager {
-    private static Map<String, Customer> prototypes = new HashMap<String, Customer>();
+    private static final Map<String, Customer> prototypes = new HashMap<String, Customer>();
 
     static {
         CustomerShallow customerShallow = new CustomerShallow();

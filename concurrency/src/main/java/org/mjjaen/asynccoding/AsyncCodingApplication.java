@@ -10,14 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AsyncCodingApplication implements CommandLineRunner
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) {
         SpringApplication.run(AsyncCodingApplication.class, args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        Executable executable = null;
+    public void run(String... args) throws IllegalArgumentException {
+        Executable executable;
         executable = FactoryExecutable.createExecutableExample(ExecutableType.COMPLETABLE_FUTURE);
         executable.execute(46);
     }

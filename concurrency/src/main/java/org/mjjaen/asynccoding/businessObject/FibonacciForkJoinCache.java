@@ -8,7 +8,7 @@ import java.util.concurrent.RecursiveTask;
 
 @Slf4j
 public class FibonacciForkJoinCache extends RecursiveTask<Long> {
-    private static int SEQUENTIAL_THRESHOLD = 30;
+    private static final int SEQUENTIAL_THRESHOLD = 30;
     private static final ConcurrentMap<Integer, Long> intermediateCalculations = new ConcurrentHashMap<>();
     final Integer number;
     final boolean printLogs;

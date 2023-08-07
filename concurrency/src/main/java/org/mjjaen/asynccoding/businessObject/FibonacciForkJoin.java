@@ -6,7 +6,7 @@ import java.util.concurrent.RecursiveTask;
 
 @Slf4j
 public class FibonacciForkJoin extends RecursiveTask<Long> {
-    private static int SEQUENTIAL_THRESHOLD = 30;
+    private static final int SEQUENTIAL_THRESHOLD = 30;
     final Integer number;
     final boolean printLogs;
 

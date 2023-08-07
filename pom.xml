@@ -22,11 +22,12 @@
         <module>designpatterns</module>
         <module>functionalprogramming</module>
         <module>datastructure</module>
-        <module>springdata</module>
         <module>syncasyncserver</module>
         <module>concurrency</module>
         <module>microservices</module>
         <module>algorithmics</module>
+        <module>network</module>
+        <module>spring</module>
     </modules>
 
     <properties>
@@ -36,7 +37,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <spring.boot.version>2.4.4</spring.boot.version>
         <jackson.version>2.12.3</jackson.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <junit-platform.version>5.6.0</junit-platform.version>
     </properties>
 
