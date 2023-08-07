@@ -547,6 +547,7 @@ This method consists of storing the result of expensive function calls and retur
 In the previous approach, we went from Fib(X) to Fib(1) (base case), from the top to the bottom. In this approach, we will go from the bottom to the top. To do this we're using what we call Tabulation. Tabulation consists of storing the results of a previous result in a table (usually an array). Usually done using interation. Better space complexity can be achieved using tabulation because we're not fillint the call stack.
 
 To calculate Fibonacci in this way, we start from Fib(0) and go up to the top:
+```java
 public static int fib(int number) {
     if(n <= 2) return 1;
     int fibNums = [0, 1, 1];
@@ -555,3 +556,4 @@ public static int fib(int number) {
     }
     return fibNums[number];
 }
+```
