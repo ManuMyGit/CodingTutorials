@@ -1,6 +1,7 @@
 # Technical tutorials
 In this repository you can find several tutorials about different coding features (mainly Java and Spring framework):
 - [Algorithms](https://github.com/ManuMyGit/CodingTutorials/tree/main/algorithmics): all about theory of algorithms: big O notation, data structures, sorting data complexity, ...
+- [Databases](https://github.com/ManuMyGit/CodingTutorials/tree/main/database): all about different databases: relational, nosql, ...
 - [Design patterns](https://github.com/ManuMyGit/CodingTutorials/tree/main/designpatterns): the most common GoF patterns.
 - [Java Functional programming](https://github.com/ManuMyGit/CodingTutorials/tree/main/functionalprogramming): what is and how to use functional programming in Java.
 - [Java Data structures](https://github.com/ManuMyGit/CodingTutorials/tree/main/datastructure): tutorial about the main data structures Java offers.
