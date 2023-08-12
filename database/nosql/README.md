@@ -1,0 +1,4 @@
+Key-value storage: It is the simplest type of database storage where it stores every single item as a key (or attribute name) holding its value, together.
+Document-oriented Database: A type of database used to store data as JSON-like document. It helps developers in storing data by using the same document-model format as used in the application code.
+Graph Databases: It is used for storing vast amounts of data in a graph-like structure. Most commonly, social networking websites use the graph database.
+Wide-column stores: It is similar to the data represented in relational databases. Here, data is stored in large columns together, instead of storing in rows.
