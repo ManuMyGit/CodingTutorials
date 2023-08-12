@@ -4,6 +4,110 @@ Redis is a fast and lightweight data store that primarily operates in memory, al
 
 ## OPERATIONS
 
+### GENERAL
+- DEL: this command deletes the key, if it exists.
+
+Pattern:
+```shell
+DEL key [key...]
+```
+- DUMP: this command returns a serialized version of the value stored at the specified key.
+
+Pattern:
+```shell
+DUMP key
+```
+- EXISTS: this command checks whether the key exists or not.
+
+Pattern:
+```shell
+EXISTS key [key...]
+```
+- EXPIRE: sets the expiry of the key after the specified time.
+
+Pattern:
+```shell
+EXPIRE key seconds
+```
+- EXPIREAT: sets the expiry of the key after the specified time. Here time is in Unix timestamp format.
+
+Pattern:
+```shell
+EXPIREAT key timestamp
+```
+- PEXPIRE: set the expiry of key in milliseconds.
+
+Pattern:
+```shell
+PEXPIRE key milliseconds
+```
+- PEXPIREAT: sets the expiry of the key in Unix timestamp specified as milliseconds.
+
+Pattern:
+```shell
+PEXPIREAT key milliseconds-timestamp
+```
+- KEYS: finds all keys matching the specified pattern.
+
+Pattern:
+```shell
+KEYS pattern
+```
+- MOVE: moves a key to another database.
+
+Pattern:
+```shell
+MOVE key db
+```
+- PERSIST: removes the expiration from the key.
+
+Pattern:
+```shell
+PERSIST key
+```
+- PTTL: gets the remaining time in keys expiry in milliseconds.
+
+Pattern:
+```shell
+PTTL key
+```
+- TTL: gets the remaining time in keys expiry.
+
+Pattern:
+```shell
+TTL key
+```
+- : returns a random key from Redis.
+
+Pattern:
+```shell
+RANDOMKEY
+```
+- RENAME: changes the key name.
+
+Pattern:
+```shell
+RENAME key new_key
+```
+- RENAMENX: renames the key, if a new key doesn't exist.
+
+Pattern:
+```shell
+RENAMENX key new_key
+```
+- TYPE: returns the data type of the value stored in the key.
+
+Pattern:
+```shell
+TYPE key
+```
+- SELECT: select a database. By default, redis has 0-15 indexes for databases, you can change that number databases NUMBER in redis.conf. Keys can't be shared across databases (although pub/sub is database agnostic).
+
+Pattern:
+```shell
+SELECT index
+```
+
 ### STRINGS
 - SET: set a key to hold a string value.
 
