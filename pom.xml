@@ -29,6 +29,7 @@
         <module>network</module>
         <module>spring</module>
         <module>database</module>
+        <module>java</module>
     </modules>
 
     <properties>

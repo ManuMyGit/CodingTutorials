@@ -1325,3 +1325,5 @@ AUTH your_password_here
 ```shell
 bind 127.0.0.1
 ```
+
+Redis can be configured here: /etc/redis/redis.conf
