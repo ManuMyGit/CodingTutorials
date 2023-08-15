@@ -23,7 +23,6 @@
         <module>syncasyncserver</module>
         <module>microservices</module>
         <module>algorithmics</module>
-        <module>network</module>
         <module>spring</module>
         <module>database</module>
         <module>java</module>

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Set;
 
 @Slf4j
 public class WriteHandler implements CompletionHandler<Integer, Attachment> {

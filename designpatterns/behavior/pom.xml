@@ -4,11 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mjjaen.designpatterns</groupId>
-    <artifactId>behavior</artifactId>
+    <artifactId>designpatternsbehavior</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-RELEASE</version>
-    <name>behavior</name>
+    <name>designpatternsbehavior</name>
 
     <parent>
         <artifactId>designpatterns</artifactId>

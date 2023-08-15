@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mjjaen.microservices.eventdriven.rabbitmq</groupId>
-    <artifactId>rconfiguration</artifactId>
+    <artifactId>rabbitmqconfiguration</artifactId>
     <version>1.0.0-RELEASE</version>
-    <name>rconfiguration</name>
+    <name>rabbitmqconfiguration</name>
 
     <parent>
-        <groupId>org.mjjaen.microservices.eventdriven</groupId>
+        <groupId>org.mjjaen</groupId>
         <artifactId>rabbitmq</artifactId>
         <version>1.0.0-RELEASE</version>
     </parent>

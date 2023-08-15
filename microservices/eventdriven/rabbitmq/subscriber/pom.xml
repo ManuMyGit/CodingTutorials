@@ -4,14 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mjjaen.microservices.eventdriven.rabbitmq</groupId>
-    <artifactId>subscriber</artifactId>
+    <artifactId>rabbitmqsubscriber</artifactId>
     <version>1.0.0-RELEASE</version>
-    <name>subscriber</name>
+    <name>rabbitmqsubscriber</name>
 
     <parent>
         <artifactId>rabbitmq</artifactId>
-        <groupId>org.mjjaen.microservices.eventdriven</groupId>
+        <groupId>org.mjjaen</groupId>
         <version>1.0.0-RELEASE</version>
     </parent>
 
@@ -21,8 +20,8 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mjjaen.microservices.eventdriven.rabbitmq</groupId>
-            <artifactId>rconfiguration</artifactId>
+            <groupId>org.mjjaen</groupId>
+            <artifactId>rabbitmqconfiguration</artifactId>
             <version>1.0.0-RELEASE</version>
         </dependency>
     </dependencies>
