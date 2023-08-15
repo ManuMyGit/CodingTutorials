@@ -2,7 +2,7 @@
 Lettuce is a high-performance and feature-rich Redis client library for Java. It supports various Redis features, including data structures, transactions, and pub/sub. Lettuce is well-suited for building scalable and efficient applications that interact with Redis databases.
 
 # SETTING UP LETTUCE
-To use Lettuce in your Java project, you need to include the Lettuce dependency in your build configuration. In this example, we are using Maven. The required dependency can be found in this [pom.xml]().
+To use Lettuce in your Java project, you need to include the Lettuce dependency in your build configuration. In this example, we are using Maven. The required dependency can be found in this [pom.xml](https://github.com/ManuMyGit/CodingTutorials/blob/main/java/misc/lettuce/pom.xml).
 
 # LETTUCE CAPABILITIES
 ## Configuration
@@ -12,7 +12,7 @@ Lettuce offers three different ways to operate:
 - Reactive
 
 ## Operations
-As a Redis Client, Lettuce supports all operations and data types that the Redis server offers. A tutorial to Redis can be found [here](). 
+As a Redis Client, Lettuce supports all operations and data types that the Redis server offers. A tutorial to Redis can be found [here](https://github.com/ManuMyGit/CodingTutorials/tree/main/database/nosql/keyvalue/redis). 
 
 # ABOUT THIS EXAMPLE
 This example shows four different things:
