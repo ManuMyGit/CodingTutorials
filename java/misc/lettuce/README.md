@@ -20,3 +20,4 @@ This example shows four different things:
 - Basic example of synchronous operation (set + get + delete).
 - Basic example of asynchronous operation (set + get + delete).
 - Basic example of reactive operation (set + get + delete).
+- Basic example of redis transactions.
