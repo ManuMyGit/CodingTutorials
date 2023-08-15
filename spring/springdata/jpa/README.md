@@ -1,5 +1,5 @@
   
-# Spring Data Jpa What is Jpa? 
+# What is Jpa? 
 Java Persistence API is a collection of classes and methods to persistently store the vast amounts of data into a database.    
     
 JPA is an open source API, therefore various enterprise vendors such as Oracle, Redhat, Eclipse, etc. provide new products by adding the JPA persistence flavor in them. Some of these products include: Hibernate, Eclipselink, Toplink, Spring Data JPA, etc.    
