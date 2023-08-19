@@ -77,7 +77,7 @@ Pattern:
 ```shell
 TTL key
 ```
-- : returns a random key from Redis.
+- RANDOMKEY: returns a random key from Redis.
 
 Pattern:
 ```shell
@@ -969,7 +969,7 @@ Redis Hashes provide an efficient way to store and manage key-value pairs within
 
 Pattern:
 ```shell
-HSET myhash field1 value1
+HSET key field value
 ```
 Example:
 ```shell
@@ -980,7 +980,7 @@ Example:
 
 Pattern:
 ```shell
-HMSET myhash field1 value1 field2 value2
+HMSET key field1 value1 field2 value2
 ```
 Example:
 ```shell
@@ -991,7 +991,7 @@ Example:
 
 Pattern:
 ```shell
-HGET myhash field1
+HGET key field
 ```
 Example:
 ```shell
@@ -1002,7 +1002,7 @@ Example:
 
 Pattern:
 ```shell
-HMGET myhash field1 field2
+HMGET key field1 field2
 ```
 Example:
 ```shell
@@ -1015,7 +1015,7 @@ Example:
 
 Pattern:
 ```shell
-HEXISTS myhash field1
+HEXISTS key field
 ```
 Example:
 ```shell
@@ -1028,7 +1028,7 @@ Example:
 
 Pattern:
 ```shell
-HSET myhash field1 new_value
+HSET key field new_value
 ```
 Example:
 ```shell
@@ -1042,7 +1042,7 @@ Example:
 
 Pattern:
 ```shell
-HDEL myhash field1 field2
+HDEL key field1 field2
 ```
 Example:
 ```shell
@@ -1057,7 +1057,7 @@ Example:
 
 Pattern:
 ```shell
-HLEN myhash
+HLEN key
 ```
 Example:
 ```shell
@@ -1068,7 +1068,7 @@ Example:
 
 Pattern:
 ```shell
-HKEYS myhash
+HKEYS key
 ```
 Example:
 ```shell
@@ -1080,7 +1080,7 @@ Example:
 
 Pattern:
 ```shell
-HVALS myhash
+HVALS key
 ```
 Example:
 ```shell
@@ -1092,7 +1092,7 @@ Example:
 
 Pattern:
 ```shell
-HINCRBY myhash field1 10
+HINCRBY key field value
 ```
 Example:
 ```shell
