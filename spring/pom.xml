@@ -9,6 +9,7 @@
     <modules>
         <module>springdi</module>
         <module>springdata</module>
+        <module>springcache</module>
     </modules>
     <packaging>pom</packaging>
     <name>spring</name>

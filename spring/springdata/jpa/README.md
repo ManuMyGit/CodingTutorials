@@ -87,7 +87,9 @@ The annotation used to map this relationship is @OneToOne with the help of the @
 - mappedBy: the field that owns the relationship. This element is only specified on the inverse (non-owning or child) side of the association. The entity which owns the relationship is the one which has the FK.  
 - orphanRemoval: whether to apply the remove operation to entities that have been removed from the relationship and to cascade the remove operation to those entities. Default false.  
 - targetEntity: the entity class that is the target of the association. Defaults to the type of the field or property that stores the association.  
-  
+
+It is important to notice that this relationship creates a unique constraint over the foreign key. If the foreign entity is going to be used multiple times (e.g. an address can be used by multiple people, the right relationship would be ManyToOne).
+
 This relationship can be implemented in different ways.  
 1. The first and the simplest way to do it is in a unidirectional way. To do that, the parent entity must have a reference to the child entity but the child entity can not have any reference to the parent entity. When the parent entity is persisted, the child entity is persisted too, but there is no way of traveling from the child entity to the parent entity. In the next example, the load of the address is done lazily.  
 
@@ -813,7 +815,12 @@ Before using QueryDSL, we need to configure our project to generate the classes 
     </build>
 ```
 
-This tool generates the so called Q-types - classes that are directly related to the entity classes of our application, but are prefixed with letter Q. For instance, if we have a User class marked with the @Entity annotation in our application, then the generated Q-type will reside in a QUser.java source file. We just need to run the package goal from maven to generate the files.  
+This tool generates the so called Q-types - classes that are directly related to the entity classes of our application, but are prefixed with letter Q. For instance, if we have a User class marked with the @Entity annotation in our application, then the generated Q-type will reside in a QUser.java source file. We just need to run the package goal from maven to generate the files.
+
+To create que Q-type entities we need to compile the project:
+```shell
+mvn compile
+```
 
 To build a query, first we need both the Q-type class and an instance of a JPAQueryFactory, which is a preferred way of starting the building process. The only thing that JPAQueryFactory needs is an EntityManager, which is already available in the custom repository created above.  
 
