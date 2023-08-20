@@ -39,7 +39,7 @@ public class SpringCacheApplication implements CommandLineRunner
         log.info(paymentService.get(new Long(1), true).toString());
         log.info("Retrieving payment 1 for the third time with no retrieving from cache option ... The information will be retrieved from the database.");
         log.info(paymentService.get(new Long(1), false).toString());
-        /*log.info("Retrieving payment 2 for the first time ... The information will be retrieved from the database.");
+        log.info("Retrieving payment 2 for the first time ... The information will be retrieved from the database.");
         log.info(paymentService.get(new Long(2), true).toString());
         log.info("Retrieving payment 2 for the second time ... The information will be retrieved from the cache.");
         log.info(paymentService.get(new Long(2), true).toString());
@@ -49,6 +49,6 @@ public class SpringCacheApplication implements CommandLineRunner
         payment.setAmount(Double.valueOf(100000000));
         log.info("Updating payment 2 ... The information will be updated both in the database and the cache.");
         paymentService.update(payment);
-        System.exit(0);*/
+        System.exit(0);
     }
 }
