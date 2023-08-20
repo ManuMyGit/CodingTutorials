@@ -4,8 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.mjjaen.springdata.redis.businessObject.Address;
 import org.mjjaen.springdata.redis.businessObject.Customer;
 import org.mjjaen.springdata.redis.businessObject.Employee;
+import org.mjjaen.springdata.redis.businessObject.Person;
 import org.mjjaen.springdata.redis.repository.CustomerRepository;
 import org.mjjaen.springdata.redis.repository.EmployeeRepository;
+import org.mjjaen.springdata.redis.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,9 @@ public class HashExamples implements Examples {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     public HashExamples(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -44,11 +49,11 @@ public class HashExamples implements Examples {
         log.info("Deleting employee with id = 2 ...");
         employeeRepository.delete("2");
         log.info("Getting employee with id = 2 ...");
-        log.info(employeeRepository.get("2") != null ? toString() : "Employee not found");
+        log.info(employeeRepository.get("2") != null ? employeeRepository.get("2").toString() : "Employee not found");
         log.info("Deleting employee with id = 1 ...");
         employeeRepository.delete("1");
         log.info("Getting employee with id = 1 ...");
-        log.info(employeeRepository.get("1") != null ? toString() : "Employee not found");
+        log.info(employeeRepository.get("1") != null ? employeeRepository.get("1").toString() : "Employee not found");
 
         log.info("Second approach to store objects: ClassName:Id property value property value property value...");
         Customer customer = new Customer("1", "Thingol", 9.98, new Address("My address 1", 5));
@@ -69,10 +74,35 @@ public class HashExamples implements Examples {
         log.info("Deleting customer with id = 2 ...");
         customerRepository.delete("2");
         log.info("Getting customer with id = 2 ...");
-        log.info(customerRepository.get("2") != null ? toString() : "Customer not found");
+        log.info(customerRepository.get("2") != null ? customerRepository.get("2").toString() : "Customer not found");
         log.info("Deleting customer with id = 1 ...");
         customerRepository.delete("1");
         log.info("Getting customer with id = 1 ...");
-        log.info(customerRepository.get("1") != null ? toString() : "Customer not found");
+        log.info(customerRepository.get("1") != null ? customerRepository.get("1").toString() : "Customer not found");
+
+        log.info("Third approach: Spring Data Repositories ...");
+        Person person = new Person("1", "Thingol", 9.98, new Address("My address 1", 5));
+        log.info("Saving " + person + " to database ...");
+        personRepository.save(person);
+        person = new Person("2", "Dior", 9.98, new Address("My address 2", 10));
+        log.info("Saving " + person + " to database ...");
+        personRepository.save(person);
+        log.info("Getting person with id = 2 ...");
+        log.info(personRepository.findById("2").toString());
+        person = new Person("2", "Turgon", 9.98, new Address("My address 3", 15));
+        log.info("Updating person with id = 2 to " + person);
+        personRepository.save(person);
+        log.info("Getting person with id = 2 ...");
+        log.info(personRepository.findById("2").toString());
+        log.info("Getting all persons ...");
+        personRepository.findAll().forEach(e -> log.info(e.toString()));
+        log.info("Deleting person with id = 2 ...");
+        personRepository.deleteById("2");
+        log.info("Getting person with id = 2 ...");
+        log.info(personRepository.findById("2").isPresent() ? personRepository.findById("2").toString() : "Person not found");
+        log.info("Deleting person with id = 1 ...");
+        personRepository.deleteById("1");
+        log.info("Getting person with id = 1 ...");
+        log.info(personRepository.findById("1").isPresent() ? personRepository.findById("1").toString() : "Person not found");
     }
 }

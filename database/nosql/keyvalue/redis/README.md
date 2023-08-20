@@ -709,6 +709,22 @@ Example:
 2) "Lebron"
 3) "Curry"
 ```
+- SSCAN: iterates over members of a set.
+
+Pattern:
+```shell
+SSCAN key cursor [MATCH pattern] [COUNT count]
+```
+Example:
+```shell
+127.0.0.1:6379> SADD splayers Curry Curry Lebron Briant
+(integer) 3
+127.0.0.1:6379> SMEMBERS players 0
+1) "0"
+2) 1) "Briant"
+   2) "Lebron"
+   3) "Curry"
+```
 - SMEMBERS: get all members of a set.
 
 Pattern:

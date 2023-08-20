@@ -51,6 +51,13 @@ This example shows two different approaches to store POJOs in a database:
     - Key: customer:idCustomer.
     - Field: customer property.
     - Value: customer property value.
+- Approach 3:
+  - Person object.
+  - Use Spring Data Redis repository and let Spring manage the low level operations.
+  - Spring Boot Redis repositories follow the approach 2 to store objects:
+    - Key: Person:idPerson.
+    - Field: person property.
+    - Value: person property value.
 
 CRUD operations in both repositories are different depending on the approach followed.
 
