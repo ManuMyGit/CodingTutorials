@@ -5,5 +5,5 @@ In this documentation the following tutorials can be found:
 - [Spring Cache](https://github.com/ManuMyGit/CodingTutorials/tree/main/spring/springcache): tutorial about cache management.
 - Spring MVC (coming soon).
 - Spring AOP (coming soon).
-- Spring Test (coming soon).
+- [Spring Test](https://github.com/ManuMyGit/CodingTutorials/tree/main/spring/springtest): tutorial about testig and testing in Spring.
 - Spring Expression Language (SpEL) (coming soon).
