@@ -2,9 +2,9 @@
 
 This tutorial contains a list of the main new features (and code examples) added to each Java version starting from Java 8:
 - [Java 8](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java8)
-- [Java 9](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java9) (coming soon)
-- [Java 10](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java10) (coming soon)
-- [Java 11](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java11) (coming soon)
+- [Java 9](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java9)
+- [Java 10](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java10)
+- [Java 11](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java11)
 - [Java 12](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java12) (coming soon)
 - [Java 13](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java13) (coming soon)
 - [Java 14](https://github.com/ManuMyGit/CodingTutorials/tree/main/java/newfeatures/java14) (coming soon)

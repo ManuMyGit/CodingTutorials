@@ -1,7 +1,10 @@
 package org.mjjaen.java8.defaultmethods;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public interface MyInterface {
-    org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(MyInterface.class);
+    Logger log = LoggerFactory.getLogger(MyInterface.class);
 
     void method1();
     default void method2() {
