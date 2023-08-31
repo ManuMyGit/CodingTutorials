@@ -130,3 +130,11 @@ Pointcut expressions use designators to specify join points. Designators include
 - `@args`: Matches join points where the arguments have a certain annotation.
 - `@within`: Matches join points within types that have a certain annotation.
 - `@annotation`: Matches join points where the method has a certain annotation.
+
+# ALTERNATIVES TO SPRING AOP
+## AspectJ
+AspectJ is a mature and powerful AOP framework that offers more advanced features compared to Spring AOP. It supports compile-time weaving and provides a broader range of pointcut expressions and advice types.
+
+## Guice AOP
+Guice, a lightweight dependency injection framework for Java, offers its own AOP capabilities. Guice AOP allows developers to define aspects and apply them to classes managed by Guice.
+
