@@ -27,7 +27,7 @@ To configure JPA with Spring, we need to use the @Transactional annotation, comb
 Before getting started with Spring Data, let's cover some JPA basics, such us annotations used to define the entities and the different relationships between entities.  
     
 # Entities  
-We use the following annotations to define an entity:    
+We use the following annotations to define an entity:
 - `@Entity`: basic annotation to tell JPA this class is an entity. JPA needs to be aware of the entity.    
   - The entity name defaults to the name of the class. We can change its name using the name element: `@Entity(name="student")`.    
 - `@Id`: this annotation defines the primary key. We can generate the identifiers in different ways which are specified by the @GeneratedValue annotation. We can choose from four id generation strategies with the strategy element. The value can be AUTO, TABLE, SEQUENCE, or IDENTITY.    
@@ -433,7 +433,7 @@ private List<CourseRegistration> courses;
   
 As always, the @ManyToOne and @OneToMany operations can be configured to define the behavior of the cascade operations and the fetch mode.  
   
-# Transactions  
+# Transactions
 A database transaction symbolizes a unit of work performed within a database management system (or similar system) against a database, and treated in a coherent and reliable way independent of other transactions. A transaction generally represents any change in a database. Transactions in a database environment have two main purposes:  
 1. To provide reliable units of work that allow correct recovery from failures and keep a database consistent even in cases of system failure, when execution stops (completely or partially) and many operations upon a database remain uncompleted, with unclear status.  
 2. To provide isolation between programs accessing a database concurrently. If this isolation is not provided, the programs' outcomes are possibly erroneous.  
@@ -579,7 +579,7 @@ Spring offers the following criterias:
 - `False`. For instance, `findByActiveFalse()`, which is equivalent to the SQL query ` … where x.active = false`.  
 - `IgnoreCase`. For instance, `findByFirstnameIgnoreCase`, which is equivalent to the SQL query ` … where UPPER(x.firstname) = UPPER(?1)`.  
   
-When defining the property expressions, although this should work for most cases, it is possible for the algorithm to select the wrong property. To resolve this ambiguity you can use _ inside your method name to manually define traversal points. For instance, with the method `List<Person> findByAddress_ZipCode(ZipCode zipCode)` we're telling Spring specifically to find the the property 1 address, and the property 2 zipCode.  
+When defining the property expressions, although this should work for most cases, it is possible for the algorithm to select the wrong property. To resolve this ambiguity you can use _ inside your method name to manually define traversal points. For instance, with the method `List<Person> findByAddress_ZipCode(ZipCode zipCode)` we're telling Spring specifically to find the property 1 address, and the property 2 zipCode.  
   
 ### Special types to enhance the functionality of the queries  
   
@@ -650,7 +650,7 @@ ListenableFuture<User> findOneByLastname(String lastname);
 //Use a org.springframework.util.concurrent.ListenableFuture as the return type
 ```
   
-### @Query  
+### @Query
 The behavior of the methods created by naming convention can be personalized by using the `@Query` annotation. This annotation can be used to execute both JPQL and native SQL queries. This annotation takes precedence over named queries, which are annotated with @NamedQuery. By default, the query definition uses JPQL. Let's see a simple example:  
 
 ```java
@@ -921,7 +921,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     }
 ```
 
-## Auditing  
+## Auditing
 Spring provides the annotations `@CreatedBy`, `@LastModifiedBy` to capture the user who created or modified the entity as well as `@CreatedDate` and `@LastModifiedDate` to capture the point in time this happened. Let's say we want to do our Customer entity auditable. It is as easy as:  
 
 ```java
@@ -979,8 +979,7 @@ public class AuditListener {
 }
 ```
   
-## Multiple Spring Data Modules  
-  
+## Multiple Spring Data Modules
 Using a unique Spring Data module in our application makes things simple, because all repository interfaces in the defined scope are bound to the Spring Data module. Sometimes, applications require using more than one Spring Data module. In such cases, a repository definition must distinguish between persistence technologies. When it detects multiple repository factories on the class path, Spring Data enters strict repository configuration mode. Strict configuration uses details on the repository or the domain class to decide about Spring Data module binding for a repository definition:  
 1. If the repository definition extends the module-specific repository, it is a valid candidate for the particular Spring Data module.  
 2. If the domain class is annotated with the module-specific type annotation, it is a valid candidate for the particular Spring Data module. Spring Data modules accept either third-party annotations (such as JPA’s @Entity) or provide their own annotations (such as @Document for Spring Data MongoDB and Spring Data Elasticsearch).  

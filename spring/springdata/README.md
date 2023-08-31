@@ -5,6 +5,6 @@ It makes it easy to use data access technologies, relational and non-relational 
 
 In this tutorial, we're going to be covering the following modules:
 - [Spring Data JPA](https://github.com/ManuMyGit/CodingTutorials/tree/main/spring/springdata/jpa)
-- Spring Data MonboDB
+- [Spring Data MonboDB](https://github.com/ManuMyGit/CodingTutorials/tree/main/spring/springdata/mongo)
 - [Spring Data Redis](https://github.com/ManuMyGit/CodingTutorials/tree/main/spring/springdata/spredis)
 - Spring R2DBC
