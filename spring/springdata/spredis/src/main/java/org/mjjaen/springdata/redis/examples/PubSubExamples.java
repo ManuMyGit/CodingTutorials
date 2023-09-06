@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PubSubExamples {
     @Autowired
-    private RedisPublisher redisPublisher;
+    private final RedisPublisher redisPublisher;
 
     public PubSubExamples(RedisPublisher redisPublisher) {
         this.redisPublisher = redisPublisher;

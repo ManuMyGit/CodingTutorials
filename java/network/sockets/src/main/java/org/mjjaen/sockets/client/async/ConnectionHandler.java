@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.ByteBuffer;
 import java.nio.channels.CompletionHandler;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class ConnectionHandler implements CompletionHandler<Void, Attachment> {
         attachment.getClient().read(readAttachment.getByteBuffer(), readAttachment, new ReadHandler());
 
         log.info("Sending client id to the server ...");
-        Charset cs = Charset.forName("UTF-8");
+        Charset cs = StandardCharsets.UTF_8;
         String msg = "id=" + attachment.getUuid();
         byte[] data = msg.getBytes(cs);
         writeAttachment.getByteBuffer().put(data);

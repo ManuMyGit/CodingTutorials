@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class GeospatialExamples implements Examples {
     @Autowired
-    private RedisTemplate stringRedisTemplate;
-    private GeoOperations<String, String> geoOperations;
+    private final RedisTemplate stringRedisTemplate;
+    private final GeoOperations<String, String> geoOperations;
 
     public GeospatialExamples(RedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;

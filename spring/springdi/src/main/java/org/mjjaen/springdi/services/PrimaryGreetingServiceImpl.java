@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Primary
 @Profile({"en", "default"})
 public class PrimaryGreetingServiceImpl implements GreetingService {
-	private GreetingRepository greetingRepository;
+	private final GreetingRepository greetingRepository;
 	
 	@Autowired
 	public PrimaryGreetingServiceImpl(GreetingRepository greetingRepository) {

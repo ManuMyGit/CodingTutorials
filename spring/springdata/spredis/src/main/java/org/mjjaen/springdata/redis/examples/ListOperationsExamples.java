@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ListOperationsExamples implements Examples {
     @Autowired
-    private RedisTemplate stringRedisTemplate;
-    private ListOperations<String, String> listOperations;
+    private final RedisTemplate stringRedisTemplate;
+    private final ListOperations<String, String> listOperations;
 
     public ListOperationsExamples(RedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;

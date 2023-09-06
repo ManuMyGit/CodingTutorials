@@ -12,8 +12,8 @@ import java.util.Set;
 @Slf4j
 public class SetOperationsExamples implements Examples {
     @Autowired
-    private RedisTemplate stringRedisTemplate;
-    private SetOperations<String, String> setOperations;
+    private final RedisTemplate stringRedisTemplate;
+    private final SetOperations<String, String> setOperations;
 
     public SetOperationsExamples(RedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ZSetOperationsExamples implements Examples {
     @Autowired
-    private RedisTemplate stringRedisTemplate;
-    private ZSetOperations<String, String> sortedSetOperations;
+    private final RedisTemplate stringRedisTemplate;
+    private final ZSetOperations<String, String> sortedSetOperations;
 
     public ZSetOperationsExamples(RedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;

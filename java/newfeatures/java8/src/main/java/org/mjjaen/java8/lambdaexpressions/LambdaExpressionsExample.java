@@ -46,7 +46,7 @@ public class LambdaExpressionsExample implements Example {
 
     @ToString
     class Bicycle {
-        private String brand;
+        private final String brand;
         public Bicycle(String brand) {
             this.brand = brand;
         }

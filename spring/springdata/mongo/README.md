@@ -374,26 +374,27 @@ For further information about how aggregations work in Mongo, please see the [Mo
 ## Auditing
 Spring Data MongoDB supports auditing by adding `@CreatedDate`, `@LastModifiedDate`, and `@CreatedBy` annotations to audit fields in your document models. Spring Data MongoDB supports optimistic concurrency control (`@Version`), allowing you to detect and handle concurrent updates to the same document.
 
-Auditing is enabled by using the annotation `@EnableMongoAuditing`. 
+Auditing is enabled by using the annotation `@EnableMongoAuditing`.
 
 ```java
+
 @Document
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class User {
-  @Id
-  private String userId;
-  private String name;
-  private Date creationDate = new Date();
-  private Map<String, String> userSettings = new HashMap<>();
-  @CreatedDate
-  private OffsetDateTime dateCreated;
-  @LastModifiedDate
-  private OffsetDateTime lastUpdated;
-  @Version
-  private Integer version;
+    @Id
+    private String userId;
+    private String name;
+    private final Date creationDate = new Date();
+    private final Map<String, String> userSettings = new HashMap<>();
+    @CreatedDate
+    private OffsetDateTime dateCreated;
+    @LastModifiedDate
+    private OffsetDateTime lastUpdated;
+    @Version
+    private Integer version;
 }
 ```
 

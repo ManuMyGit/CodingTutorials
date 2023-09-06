@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Slf4j
 public class MyAsyncClientInitializer {
-    private static UUID id = UUID.randomUUID();
+    private static final UUID id = UUID.randomUUID();
 
     public static void initializeAndRunClient() {
         log.info("Launching client ...");

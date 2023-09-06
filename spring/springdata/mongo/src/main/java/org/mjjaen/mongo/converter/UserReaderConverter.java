@@ -28,7 +28,7 @@ public class UserReaderConverter implements Converter<Document, User> {
                 .userSettings((Map<String, String>)document.get("userSettings"))
                 .dateCreated(dateCreated != null ? dateCreated.toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime() : null)
                 .lastUpdated(lastUpdated != null ? lastUpdated.toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime() : null)
-                .address(address != null ? address : null)
+                .address(address)
                 .profile((ObjectId)document.get("profile"))
                 .books((List<Book>)document.get("books"))
                 .version((Integer) document.get("version"))

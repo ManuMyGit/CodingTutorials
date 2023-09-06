@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class HashExamples implements Examples {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
     private CustomerRepository customerRepository;

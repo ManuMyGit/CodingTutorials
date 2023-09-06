@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class ConstructorInjectedController {
-	private GreetingService greetingService;
+	private final GreetingService greetingService;
 	
 	@Autowired
 	public ConstructorInjectedController(@Qualifier("constructorGreetingServiceImpl") GreetingService greetingService) {

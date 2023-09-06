@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class ParallelArraySortingExample implements Example {
     @Override
     public void runExample() {
-        int numbers[] = { 9, 8, 7, 6, 3, 1 };
+        int[] numbers = { 9, 8, 7, 6, 3, 1 };
 
         // Printing unsorted Array
         log.info("Unsorted Array: ");

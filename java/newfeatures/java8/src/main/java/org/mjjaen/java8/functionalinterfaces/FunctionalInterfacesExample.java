@@ -26,7 +26,7 @@ public class FunctionalInterfacesExample implements Example {
         BiConsumer<String, Integer> biConsumer = (x, y) -> log.info("This is the first input: " + x + " and this is the second input: " + y);
         biConsumer.accept("This is a test of bi consumer", 3);
         log.info("Testing functional interface Supplier<T> ...");
-        Supplier<String> supplier = () -> new String("This is an example of supplier, a function that gets no argument and returns an object");
+        Supplier<String> supplier = () -> "This is an example of supplier, a function that gets no argument and returns an object";
         log.info(supplier.get());
         log.info("Testing functional interface Predicate<T> ...");
         Predicate<String> predicate = (x) -> x.length() == 5;

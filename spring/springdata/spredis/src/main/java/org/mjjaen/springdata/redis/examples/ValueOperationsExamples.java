@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ValueOperationsExamples implements Examples {
     @Autowired
-    private RedisTemplate stringRedisTemplate;
-    private ValueOperations<String, String> valueOperations;
+    private final RedisTemplate stringRedisTemplate;
+    private final ValueOperations<String, String> valueOperations;
 
     public ValueOperationsExamples(RedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
@@ -24,11 +24,11 @@ public class ValueOperationsExamples implements Examples {
         log.info("Adding key MyKey with value MyValue ...");
         valueOperations.setIfAbsent("MyKey", "MyValue");
         log.info("Getting the value of the key MyKey ...");
-        log.info(valueOperations.get("MyKey").toString());
+        log.info(valueOperations.get("MyKey"));
         log.info("Appending the value Appended to the key MyKey ...");
         valueOperations.append("MyKey", "Appended");
         log.info("Getting the value of the key MyKey ...");
-        log.info(valueOperations.get("MyKey").toString());
+        log.info(valueOperations.get("MyKey"));
         log.info("Deleting MyKey ...");
         stringRedisTemplate.delete("MyKey");
         log.info("Getting the value of the key MyKey ...");
