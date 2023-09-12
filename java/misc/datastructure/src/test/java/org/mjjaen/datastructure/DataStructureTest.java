@@ -27,6 +27,9 @@ public class DataStructureTest {
 
     @Autowired
     private BreadthFirstSearchExample breadthFirstSearchExample;
+
+    @Autowired
+    private JGraphTExample jGraphTExample;
     @Test
     public void testAdjacencyMatrixUnweightedUndirected() {
         unweightedUndirectedGraphExample.run();
@@ -55,5 +58,10 @@ public class DataStructureTest {
     @Test
     public void testBreadthFirstSearch() {
         breadthFirstSearchExample.run();
+    }
+
+    @Test
+    public void testJGraphTProject() {
+        jGraphTExample.run();
     }
 }
