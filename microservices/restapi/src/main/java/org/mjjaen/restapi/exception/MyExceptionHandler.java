@@ -24,18 +24,11 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<CustomError> handleAllExceptions(Exception exception, WebRequest request) {
-        log.error(exception.getMessage());
-        CustomError error = CustomError.builder().localDateTime(LocalDateTime.now()).message(exception.getMessage()).details(request.getDescription(false)).build();
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(ConstraintViolationException.class)
     public final ResponseEntity<CustomError> handleMethodArgumentNotValidAtPersistanceLevel(ConstraintViolationException exception, WebRequest request) {
         log.error(exception.getMessage());
         CustomError error = CustomError.builder().localDateTime(LocalDateTime.now()).message(exception.getMessage()).details(request.getDescription(false)).build();
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -43,5 +36,12 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(exception.getMessage());
         CustomError error = CustomError.builder().localDateTime(LocalDateTime.now()).message("Validation failed").details(exception.getBindingResult().getAllErrors().toString()).build();
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<CustomError> handleAllExceptions(Exception exception, WebRequest request) {
+        log.error(exception.getMessage());
+        CustomError error = CustomError.builder().localDateTime(LocalDateTime.now()).message(exception.getMessage()).details(request.getDescription(false)).build();
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

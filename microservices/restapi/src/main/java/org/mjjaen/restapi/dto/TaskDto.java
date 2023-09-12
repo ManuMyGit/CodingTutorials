@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 public class TaskDto {
     private String id;
     @NotBlank(message = "Description is mandatory")

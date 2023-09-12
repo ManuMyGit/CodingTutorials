@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.mjjaen.restapi.model.Location;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -28,7 +30,10 @@ public class CallingOtherServiceController {
             log.info("Execution getLocationDetailsFromIpBlocking controller method with IP = " + ip);
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<Location> apiResponse = restTemplate.exchange("http://ipapi.co/".concat(ip).concat("/json/"), HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
-            return apiResponse;
+            if(apiResponse.getStatusCode().is2xxSuccessful())
+                return ResponseEntity.status(HttpStatus.OK).body(apiResponse.getBody());
+            else
+                return apiResponse;
         }, controllerTaskExecutor);
     }
 }

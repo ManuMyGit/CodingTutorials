@@ -3,13 +3,16 @@ package org.mjjaen.datastructure.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class ServiceList {
-	@Autowired
-	private ListConfiguration listConfiguration;
+	private final ListConfiguration listConfiguration;
 	
 	@TimerAnnotation
 	public void initializeList(final List<Integer> list) {
@@ -46,17 +49,8 @@ public class ServiceList {
 		}
 	}
 	
-	
 	public void printList(final List<Integer> list) {
-		list.stream().forEach(element -> System.out.print(element + " "));
-		System.out.println();
-	}
-
-	public ListConfiguration getListConfiguration() {
-		return listConfiguration;
-	}
-
-	public void setListConfiguration(ListConfiguration listConfiguration) {
-		this.listConfiguration = listConfiguration;
+		list.stream().forEach(element -> log.info(element + " "));
+		log.info("\n");
 	}
 }

@@ -82,7 +82,7 @@ public class TaskController {
 
     @Operation(summary = "Update a task")
     @Async(AsyncConfig.TASK_EXECUTOR_CONTROLLER)
-    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<TaskDto>> updateTask(@RequestHeader HttpHeaders headers, HttpServletResponse response, @PathVariable ObjectId id, @RequestBody TaskDto taskDto) {
         response.setHeader("Custom-Header", "foo");
         log.info("Execution updateTask controller method");

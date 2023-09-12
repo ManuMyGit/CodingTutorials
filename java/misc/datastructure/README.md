@@ -26,14 +26,15 @@
     - Set: raplace the element of the index accepted as parameter.
     - ...
 - There are several implementations for this interface:
-	- ArrayList: an implementation that stores elements in a backing array. The array’s size will be automatically expanded if there isn’t enough room when adding new elements into the list. It’s possible to set the default size by specifying an initial capacity when creating a new ArrayList. Basically, an ArrayList offers constant time for the following operations: size, isEmpty, get, set, iterator, and listIterator; amortized constant time for the add operation; and linear time for other operations. Therefore, this implementation can be considered if we want fast, random access of the elements.
-	- LinkedList: an implementation that stores elements in a doubly-linked list data structure. It offers constant time for adding and removing elements at the end of the list; and linear time for operations at other positions in the list. Therefore, we can consider using a LinkedList if fast adding and removing elements at the end of the list is required.
-	- Vector: it uses a dynamic array to store the data elements. It is similar to ArrayList. However, It is synchronized and contains many methods that are not part of the Collection framework.
-	- Stack: this class extends from Vector. It represents a LIFO (last in - first out) structure and hast three particular methods:
-	    - push: insert an element on the top of the structure.
-	    - pop: returns and remove the element on the top of the structure.
-	    - peek: returns the element on the top of the structure.
-- There are samples in the code to measure the time of accessing, adding and removing of the different implementations of List interface. 
+    - ArrayList: an implementation that stores elements in a backing array. The array’s size will be automatically expanded if there isn’t enough room when adding new elements into the list. It’s possible to set the default size by specifying an initial capacity when creating a new ArrayList. Basically, an ArrayList offers constant time for the following operations: size, isEmpty, get, set, iterator, and listIterator; amortized constant time for the add operation; and linear time for other operations. Therefore, this implementation can be considered if we want fast, random access of the elements.
+    - LinkedList: an implementation that stores elements in a doubly-linked list data structure. It offers constant time for adding and removing elements at the end of the list; and linear time for operations at other positions in the list. Therefore, we can consider using a LinkedList if fast adding and removing elements at the end of the list is required.
+    - Vector: it uses a dynamic array to store the data elements. It is similar to ArrayList. However, It is synchronized and contains many methods that are not part of the Collection framework.
+    - Stack: this class extends from Vector. It represents a LIFO (last in - first out) structure and hast three particular methods:
+        - push: insert an element on the top of the structure.
+        - pop: returns and remove the element on the top of the structure.
+        - peek: returns the element on the top of the structure.
+- There are samples in the code to measure the time of accessing, adding and removing of the different implementations of List interface.
+
 # Queue interface
 - It represents a FIFO (first in - first out) structure.
 - This interface has the following implementations:
@@ -44,6 +45,7 @@
     - add / offer: insert an element into the queue.
     - remove / poll: retrieve and remove the head of the queue.
     - element / peek: retrieve (but not remove) the head of the queue.
+
 # Set interface
 - This interface is a group of elements that has some differences with List:
     - It doesn't keep the ordering insertion.
@@ -53,6 +55,7 @@
     - HashSet: is the best-performing implementation and is a widely-used Set implementation. It represents the core characteristics of sets: no duplication and unordered.
     - LinkedHashSet: differs from HashSet by guaranteeing that the order of the elements during iteration is the same as the order they were inserted into the LinkedHashSet. Reinserting an element that is already in the LinkedHashSet does not change its order.
     - TreeSet: also guarantees the order of the elements when iterated, but the order is the sorting order of the elements. In other words, the order in which the elements whould be sorted if you used a Collections.sort() on a List or array containing these elements. This order is determined either by their natural order (if they implement Comparable), or by a specific Comparator implementation.
+
 # Map interface
 - It represents a key-value structure.
 - It is necessary for the key to implement the equal and hashCode methods because each key must be unique.
@@ -62,3 +65,16 @@
     - TreeMap: it is a Red-Black tree implementation that is sorted according to the natural ordering of its keys, or by a Comparator provided at the creation time. Also, this class maintains an order on its elements. Finally, this class is not synchronized and thus, if an application uses multiple threads, the map must be synchronized externally.
     - ConcurrentHashMap: it is a hash table that supports full concurrency of retrievals. Thus, this structure is safe to use in case of multiple threads. Finally, this class does not allow neither keys nor values to be null.
 - There is a interface which extends from Map interface: Entry interface. It provides methods to get key and value (for(Entry e : map.entrySet()){...e.getKey()...e.getValue()...})
+
+# Graph
+There is no a specific class to manage graphs in Java. However, they can be implemented in different ways. In this example, two implementations were developed:
+- Adjacency Matrix: this implementation is based on a nxn matrix, being n the number of vertices. Depending on the type of graph the matrix:
+  - Consists of boolean for unweighted graphs.
+  - Consists of integers for weighted graphs.
+- Adjacency List: this implementation is based on a Map, where each node (key) has a set of vertices connected (value):
+  - In case of unweighted graphs, the key of the map is the vertex and the value, the set of nodes linked to the vertex.
+  - In csae of weighted graphs, the key of the map is the vertex and the value, another set with each linked node as the key and the weight as the value.
+
+Additionally, both weighted and unweighted maps can be both undirected or directed. In this example, there is a boolean passed in the constructor to specify whether it's directed or undirected.
+
+There are libraries that offer a lot of graph features out of the box. One of the most common ones is [JGraphT](https://github.com/jgrapht/jgrapht/blob/master/README.md).

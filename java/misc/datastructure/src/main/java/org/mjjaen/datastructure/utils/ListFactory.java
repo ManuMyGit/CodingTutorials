@@ -14,14 +14,11 @@ public class ListFactory {
 	public List<Integer> createList(final String type) {
 		List<Integer> list;
 		switch(type) {
-			case "ARRAYLIST":
-				list = new ArrayList<Integer>();
-				break;
 			case "LINKEDLIST":
-				list = new LinkedList<Integer>();
+				list = new LinkedList<>();
 				break;
 			default:
-				list = new ArrayList<Integer>();
+				list = new ArrayList<>();
 				break;
 		}
 		return list;
