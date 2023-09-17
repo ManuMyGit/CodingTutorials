@@ -3,6 +3,7 @@ package org.mjjaen.datastructure;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mjjaen.datastructure.graphs.examples.*;
+import org.mjjaen.datastructure.trees.examples.BinarySearchTreeExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -27,6 +28,9 @@ public class DataStructureTest {
 
     @Autowired
     private BreadthFirstSearchExample breadthFirstSearchExample;
+
+    @Autowired
+    private BinarySearchTreeExample binarySearchTreeExample;
 
     @Autowired
     private JGraphTExample jGraphTExample;
@@ -63,5 +67,10 @@ public class DataStructureTest {
     @Test
     public void testJGraphTProject() {
         jGraphTExample.run();
+    }
+
+    @Test
+    public void testBinarySearchTree() {
+        binarySearchTreeExample.run();
     }
 }
