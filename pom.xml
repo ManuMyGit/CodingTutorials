@@ -27,6 +27,7 @@
         <module>database</module>
         <module>java</module>
         <module>docker</module>
+        <module>c</module>
     </modules>
 
     <properties>
