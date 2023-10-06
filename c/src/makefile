@@ -1,13 +1,13 @@
-all: compile link execute
+all: compile link execute clean
 
 compile:
-	gcc -Wall -c pointers.c
+	gcc -Wall -c $(file).c
 
 link:
-	gcc -o pointers pointers.o -lm
+	gcc -o DEL$(file) $(file).o -lm
 
 execute:
-	./pointers
+	./DEL$(file)
 
 clean:
-	rm *.o pointers
+	rm DEL* *.o

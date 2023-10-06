@@ -9,5 +9,6 @@ In this repository you can find several tutorials about different coding feature
 - [Synchronous vs asynchronous server](https://github.com/ManuMyGit/CodingTutorials/tree/main/syncasyncserver): simple example about the difference in performance of a REST api server which manages the requests synchronously and asynchronously. 
 - [Microservices](https://github.com/ManuMyGit/CodingTutorials/tree/main/microservices): different tutorials about microservices pattern.
 - [Docker](https://github.com/ManuMyGit/CodingTutorials/tree/main/docker): docker tutorial.
+- [C](https://github.com/ManuMyGit/CodingTutorials/tree/main/c): C programming language tutorial
 
 If you'd like to know more about me, please do not hesitate to visit my [website](http://manueljaenlopez.ddns.net/) and get in touch with me in Contact section.

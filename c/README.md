@@ -1,3 +1,20 @@
+# C
+The C programming language is a general-purpose programming language that was originally developed in the early 1970s by Dennis Ritchie at Bell Labs. It was designed for system programming, which involves writing software that interacts directly with hardware and manages system resources.
+
+C is known for its efficiency, flexibility, and low-level access to memory, making it suitable for tasks where performance is critical. It has had a significant influence on many other programming languages and forms the basis for languages like C++, C#, and Objective-C.
+
+Key features of the C programming language include:
+- Procedural Programming: C follows a procedural programming paradigm, which means that it focuses on functions or procedures that manipulate data.
+- Low-level Manipulation: C provides features that allow direct manipulation of memory addresses, which makes it suitable for tasks that require fine-grained control over system resources.
+- Portability: C was designed to be highly portable. Programs written in C can be compiled and run on different platforms with minimal or no modification.
+- Efficiency: C allows for fine control over system resources, which can lead to highly efficient code. It is often used for tasks where performance is critical, such as in embedded systems or operating systems.
+- Static Typing: C is a statically typed language, which means that variable types are checked at compile time rather than at runtime. This can help catch many types of errors before the program is executed.
+- Standard Library: C comes with a standard library that provides a set of functions for common tasks like input/output operations, string handling, memory allocation, etc.
+- Community and Legacy: C has a large and active community of developers. It has been used for decades and has a rich legacy, with many well-established libraries, tools, and resources available.
+- Basis for Other Languages: Many other programming languages, including C++, C#, and Objective-C, have been influenced by or directly derived from C.
+
+Overall, C is a powerful and versatile programming language that remains popular in various domains, particularly in systems programming, embedded systems, game development, and other performance-critical applications.
+
 # POINTERS
 ## What is a pointer?
 A pointer is a variable that holds the memory address of another variable instead of a real value.
@@ -799,3 +816,138 @@ Let's analyse the second example:
 5. When showArraySize, the memory allocated on the stack gets freed up. But that only includes the local variable array. The array itself still remains in the heap variable, and now, since the local variable array has been removed, the link between the local variable and the array itself gets removed. Due to that, the part of the heap memory where the array has been stored remains busy, allocated, unable to be used again.
 
 If we repeat the loop over and over again, the step number 5 will make the heap memory being more and more busy as that memory allocation never gets released. This is what causes the memory leak, and if not controller, it can consume all the memory of the computer.
+
+# STRUCTS
+## What is a struct?
+A struct (short for "structure") in C is a user-defined data type that allows you to group together different variables under a single name. This enables you to organize and manage related data in a more structured manner.
+
+## Defining and declaring structs
+Structs are declared with the keyword `struct`. Let's see the following example:
+```shell
+struct Person {
+    char name[50];
+    int age;
+    float height;
+};
+```
+
+This is how we would declare a struct variable:
+```shell
+struct Person person1, person2;
+```
+
+We can use the keyword `typedef` to define a new struct type and to avoid having to use struct in the declaration. Let's see the following example:
+```shell
+typedef struct {
+    char model[20];
+    int year;
+    float price;
+} Car;
+
+Car car;
+```
+
+## Initialization
+There are different ways to initialize a struct. Let's see here different examples:
+```shell
+Person person;
+strcpy(person.name, "Any name");
+strcpy(person.id, "12345");
+person.age = 25;
+```
+
+```shell
+Point point = {5, 10};
+```
+
+```shell
+Point point2 = {
+    .y=5,
+    .x=10
+};
+```
+
+## Accessing structs properties.
+To access struct properties we use "." when we have the value of the struct or "->" when we have a pointer to the struct.
+
+## Structs as function parameters
+As any other variable type, structs can be sent to a function. Do to its potential size, it's always recommended passing structs as reference.  Let's see the following example:
+### Structs passed as value
+```shell
+void printPoint(Point point) {
+    printf("Point coordinates: (%d, %d)\n", point.x, point.y);
+}
+
+Point point2 = {.y=5, .x=10};
+printPoint(point2);
+```
+
+### Structs passed as reference
+```shell
+void printPointWithPointer(Point *point) {
+    printf("Point coordinates: (%d, %d)\n", point->x, point->y);
+}
+
+Point point2 = {.y=5, .x=10};
+printPointWithPointer(&point2);
+```
+
+### Structs dynamically allocated
+We can dynamically allocate memory for structs like any other variable type.
+```shell
+Point *pointPtr = (Point *)malloc(sizeof(Point));
+pointPtr -> y = 7;
+pointPtr -> x = 11;
+printPointWithPointer(pointPtr);
+```
+
+### Nested structs
+We can use structs within structs. Let's see the following example:
+```shell
+typedef struct {
+    char street[100];
+    char city[50];
+    char state[3];
+    int zipCode;
+} Address;
+
+typedef struct {
+    char name[50];
+    char id[10];
+    int age;
+    Address address;
+} Person;
+
+Person person;
+strcpy(person.name, "Any name");
+strcpy(person.id, "12345");
+person.age = 25;
+strcpy(person.address.street, "1st Ave");
+strcpy(person.address.city, "New York");
+strcpy(person.address.state, "NY");
+person.address.zipCode = 12345;
+printPerson(person);
+printPersonWithPointer(&person);
+
+void printPerson(Person person) {
+    printf("Size of person in printPerson: %lu\n", sizeof(person));
+    printf("Person name: %s\n", person.name);
+    printf("Person id: %s\n", person.id);
+    printf("Person age: %d\n", person.age);
+    printf("Person address street: %s\n", person.address.street);
+    printf("Person address city: %s\n", person.address.city);
+    printf("Person address state: %s\n", person.address.state);
+    printf("Person address zip code: %d\n", person.address.zipCode);
+}
+
+void printPersonWithPointer(Person *person) {
+    printf("Size of person in printPersonWithPointer: %lu\n", sizeof(person));
+    printf("Person name: %s\n", person->name);
+    printf("Person id: %s\n", person->id);
+    printf("Person age: %d\n", person->age);
+    printf("Person address street: %s\n", person->address.street);
+    printf("Person address city: %s\n", person->address.city);
+    printf("Person address state: %s\n", person->address.state);
+    printf("Person address zip code: %d\n", person->address.zipCode);
+}
+```
