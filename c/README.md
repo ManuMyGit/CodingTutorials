@@ -17,7 +17,12 @@ Overall, C is a powerful and versatile programming language that remains popular
 
 # POINTERS
 ## What is a pointer?
-A pointer is a variable that holds the memory address of another variable instead of a real value.
+Pointer in C is just a variable that could store the address of the other variable. In C size of a pointer is not fixed as it depends on Word size of the processor. In general a 32-bit computer machine then size of a pointer would be 4 bytes while for a 64-bit computer machine, it would be 8 bytes.
+
+## Pointer size
+The size of a pointer in C depends on the factors like Processor word size and CPU Architecture. Processor Word Size is the amount of data that internal data registers of the CPU can capture and process the data at a time.
+
+To keep it simple, Processor word size determines the size of the pointer. As a matter of fact, the Processor word size is the same for a particular computer machine, and the size of the pointer in C also remains the same. So, the size of the pointer is purely dependent on the word size of the processor, irrespective of the data type of variable whose address is being stored.
 
 ## Variables in C
 Before talking about pointers, we need to understand how variables are stored in C. There are two key aspects when storing a variable:
