@@ -1,0 +1,9 @@
+version: "2.4"
+services:
+  kafka-ui:
+    container_name: kafka-ui
+    network_mode: host
+    environment:
+      - KAFKA_BROKERS=localhost:9092
+      - SERVER_LISTENPORT=8100
+    image: docker.redpanda.com/redpandadata/console:latest
