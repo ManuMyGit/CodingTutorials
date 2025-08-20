@@ -9,10 +9,11 @@ How to manage it? Here is where Apache Kafka comes in. It allows us to decouple 
 
 ## Quick review of Kafka features and use cases
 Main features:
-- Distributed.
-- Resilient architecture.
-- Fault tolerant.
+- Distributed: it's designed to run across multiple servers (brokers) that work together as a single unit, allowing for scalability, fault tolerance, and high availability.
+- Resilient architecture: distributed, replicated, and fault-tolerant design, ensuring high availability and data durability even in the face of failures
+- Fault tolerant: Kafka ensures data durability through its replication mechanism. Each partition is replicated across multiple brokers, with one broker acting as the leader and others as followers. When a producer sends a message, it is written to the leader and then replicated to the followers. This ensures that even if a broker fails, the data remains available.
 - Horizontal scalability.
+  - More partitions can be added and distributed across a cluster of brokers to handle increasing loads, and each partition can be replicated across multiple brokers to enhance fault tolerance.
   - Can scale to 100s of brokers.
   - Can scale to millions of messages per second.
 - High performance (latency of less than 10ms) - real time.
@@ -26,14 +27,20 @@ Real use cases:
 - De-coupling of system dependencies.
 
 # Kafka fundamentals
+## Message
+A Kafka message, also known as a record, primarily consists of a key, a value, and a timestamp. The key is optional and used to determine the partition where the message will be stored. The value contains the actual data payload, and the timestamp indicates when the message was produced
+
 ## Topics, partitions and offsets
 A topic in Kafka is the base of everything. It is a particular stream of data:
 - We could say it is similar to a table in a database, in the way that all the data within the topic is of the same type.
 - We can have as many topics as we want.
 - Topics are split into partitions.
-  - Each partition is ordered. The order is guaranteed just within each specific partition, not across partition.
+  - A topic is a logical representation of a stream of data. A partition represents the physical data storage on disk.
+  - Each partition is ordered. The order is guaranteed just within each specific partition, not across partitions.
+  - If order is required, all events related to the same object should be sent with the same key. This will guarantee Kafka will store the event in the same partition.
+  - Messages across partitions within the same topic are read in parallel, while messages within the same partition are read sequentially.
   - Each message within a partition gets an incremental id, called offset.
-  - The partitions must be specified when a topic is created. It can be changed later on, but it is a required data during the topic creation.
+  - The partitions must be specified when a topic is created. It can be changed later on, but it is a required data during the topic creation. Increase the number of partitions might be risky since it might change the partition destination for a set of keys. Imagine we have partitions 1, 2 and 3. All the messages with key turgon go to partition 1, which guarantees order for that key. Assume now that we add a new partition, 4, and due to this, all messages with key turgon go now to partition 4. If there are events for turgon to be processed in partition number 1, and we have now events for that key in partition number 4, order is broken.
   - Offsets are duplicated across partitions, but not inside partitions. Offsets are unique per partition.
   - The offset itself doesn't say anything about the message. A message is identified by topic-partition-offset.
 - The data is kept only for a limited time (default is one week).
@@ -52,8 +59,17 @@ Let's see an example. Let's thing of Uber:
 - We choose to create that topic with 50 partitions.
 - Thanks to Kafka, Uber will able to show the position of the cars in the mobile app, it'll be able to send notifications when the cars get close to the clients, ...
 
+### Partitions
+To support scalability is fundamental to select a right key to distribute the messages accross different partitions. The partition is determined by hashing the key using a hash function (murmur2 by default) and taking the modulo with the number of partitions: partition = hash(key) % num_partitions. If you choose a bad key, you can end up with hot partitions that are overwhelmed with traffic. Good keys are ones that are evenly distributed across the partition space.
+
+There are partitions which receive extremely high traffic under some conditions. These partitions are called hot partitions. How can we handle hot partitions? There are a few strategies to handle hot partitions:
+- Random partitioning with no key (when order is not important): If you don't provide a key, Kafka will randomly assign a partition to the message, guaranteeing even distribution. The downside is that you lose the ability to guarantee order of messages. If this is not important to your design, then this is a good option.
+- Random salting: We can add a random number or timestamp to the ID when generating the partition key. This can help in distributing the load more evenly across multiple partitions, though it may complicate aggregation logic later on the consumer side. This is often referred to as "salting" the key.
+- Use a compound key: Instead of using just a simple ID, use a combination of ID and another attribute, such as geographical region or user ID segments, to form a compound key. This approach helps in distributing traffic more evenly and is particularly useful if you can identify attributes that vary independently of the ID.
+- Back pressure: Depending on your requirements, one easy solution is to just slow down the producer. If you're using a managed Kafka service, they may have built-in mechanisms to handle this. If you're running your own Kafka cluster, you can implement back pressure by having the producer check the lag on the partition and slow down if it's too high.
+
 ## Brokers and topics
-The brokers are the things which hold the topics/partitions. A Kafka cluster is composed of multiple brokers (servers):
+The brokers are the machines (servers) which hold the topics/partitions. A Kafka cluster is composed of multiple brokers (servers):
 - Each broker is identified with its ID, which must be a number.
 - Each broker contains only certain topic of partitions. That means that a partition is hold just by one broker.
 - After connecting to any broker (called a bootstrap broker), we'll be connected to the entire cluster.
@@ -104,14 +120,16 @@ Producers wan choose to send a key with the message:
 ## Consumers & consumer groups
 In the same way producers write data, consumers read data from a topic (specified by name).
 - Consumers know which broker to read from automatically, that's part of Kafka. We don't need to worry about it. They will use automatically a GroupCoordinator and a ConsumerCoordinator to assign a consumer to a partition.
-- In case of broker failures, consumers know how to recover. Thanks to the partition-offset, if a broker is down, when it gets back, the consumer will keep reading from the last partition-offset.
+- In case of broker failures, consumers know how to recover. Thanks to the partition-offset, if a broker is down, when it gets back, the consumer will keep reading from the last partition-offset. Consumers commit the offset to the broker regularly, so when the consumer is back, kafka has the information about the offset.
 - Data is read in order within each partition.
 - In case of a consumer reading from more than one partition, partition reads will happen in parallel (but as we know, reads inside the partition will happen offset by offset).
 
 Consumers can group to build consumer groups:
 - Each consumer within a group reads from exclusive partitions.
+- Kafka guarantees that a message is read only by one consumer within the consumer group.
 - If we have more consumers than partitions, some consumers will be inactive. This scenario could be built on purpose, for instance 3 partitions and 4 consumers in case a consumer breaks down, the 4th one takes place to keep consuming with 3 consumers.
 - If we have more partitions than consumers, some consumers will read from more than one partition.
+- If we want to achieve a queue-like behaviour, we can assign all the consumers within the same consumer group. If we want the opposite, a broadcast-like behavoiur, we can create a consumer group per consumer.
 
 In the following example we have 1 topic with 3 partitions read by 3 different consumer groups:
 
@@ -153,6 +171,9 @@ Zookeeper is what holds the brokers together, it manages the brokers, it keeps a
 - It by design operates with an odd number of servers (3, 5, 7, ...).
 - As any other distributed system, there is a leader, which is the one which handle the writes. The rest of the servers are followers, and they handle reads.
 - It doesn't store consumer offsets with Kafka > v0.10.
+
+## KRaft
+Zookeeper is being deprecated in favour of Kraft.
 
 ## Kafka guarantees
 It is important, after understanding how Kafka works, what it guarantees:
@@ -250,6 +271,7 @@ The guidelines for replication factor are:
 - Never set it to 1 in production.
 
 General guidelines:
+- The maximum size of a message should be 1MB.
 - It is pretty much accepted that a broker should not hold more than 2000 to 4000 partitions (across all topics of that broker).
 - Additionally, a Kafka cluster should have a maximum of 20000 partitions across all brokers.
 - The reason is that in case of brokers going down, Zookeeper needs to perform a lot of leader elections.
