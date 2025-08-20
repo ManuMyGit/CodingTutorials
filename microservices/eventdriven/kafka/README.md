@@ -75,6 +75,7 @@ The brokers are the machines (servers) which hold the topics/partitions. A Kafka
 - After connecting to any broker (called a bootstrap broker), we'll be connected to the entire cluster.
 - A good number to get started is 3 brokers:
   - That way, if one broker needs maintenance and one broker breaks down, there is still one broker working so the topic is still accessible by the consumers.
+- As a rule of thumb, a broker can store up to 1TB of data and can manage up to 10k messages per second.
 
 Let's say that we have 3 brokers and a topic called `"my-topic"` with 3 partitions:
 - The first partition of the topic (my-topic Partition 2) is going to be in the broker 1.
