@@ -40,7 +40,7 @@ A topic in Kafka is the base of everything. It is a particular stream of data:
   - If order is required, all events related to the same object should be sent with the same key. This will guarantee Kafka will store the event in the same partition.
   - Messages across partitions within the same topic are read in parallel, while messages within the same partition are read sequentially.
   - Each message within a partition gets an incremental id, called offset.
-  - The partitions must be specified when a topic is created. It can be changed later on, but it is a required data during the topic creation. Increase the number of partitions might be risky since it might change the partition destination for a set of keys. Imagine we have partitions 1, 2 and 3. All the messages with key turgon go to partition 1, which guarantees order for that key. Assume now that we add a new partition, 4, and due to this, all messages with key turgon go now to partition 4. If there are events for turgon to be processed in partition number 1, and we have now events for that key in partition number 4, order is broken.
+  - The partitions must be specified when a topic is created. It can be changed later on, but it is a required data during the topic creation. Increase the number of partitions might be risky since it might change the partition destination for a set of keys. Imagine we have partitions 1, 2 and 3. All the messages with key ABCD go to partition 1, which guarantees order for that key. Assume now that we add a new partition, 4, and due to this, all messages with key ABCD go now to partition 4. If there are events for ABCD to be processed in partition number 1, and we have now events for that key in partition number 4, order is broken.
   - Offsets are duplicated across partitions, but not inside partitions. Offsets are unique per partition.
   - The offset itself doesn't say anything about the message. A message is identified by topic-partition-offset.
 - The data is kept only for a limited time (default is one week).
@@ -60,7 +60,7 @@ Let's see an example. Let's thing of Uber:
 - Thanks to Kafka, Uber will able to show the position of the cars in the mobile app, it'll be able to send notifications when the cars get close to the clients, ...
 
 ### Partitions
-To support scalability is fundamental to select a right key to distribute the messages accross different partitions. The partition is determined by hashing the key using a hash function (murmur2 by default) and taking the modulo with the number of partitions: partition = hash(key) % num_partitions. If you choose a bad key, you can end up with hot partitions that are overwhelmed with traffic. Good keys are ones that are evenly distributed across the partition space.
+To support scalability is fundamental to select a right  to distribute the messages accross different partitions. The partition is determined by hashing the key using a hash function (murmur2 by default) and taking the modulo with the number of partitions: partition = hash(key) % num_partitions. If you choose a bad key, you can end up with hot partitions that are overwhelmed with traffic. Good keys are ones that are evenly distributed across the partition space.
 
 There are partitions which receive extremely high traffic under some conditions. These partitions are called hot partitions. How can we handle hot partitions? There are a few strategies to handle hot partitions:
 - Random partitioning with no key (when order is not important): If you don't provide a key, Kafka will randomly assign a partition to the message, guaranteeing even distribution. The downside is that you lose the ability to guarantee order of messages. If this is not important to your design, then this is a good option.
@@ -117,6 +117,23 @@ Producers wan choose to send a key with the message:
 - If key = null, round robin strategy is used.
 - If key is sent, then all messages for that key will always go to the same partition. For instance, in our Uber example, where there is data every 5 seconds, if we want the data of a particular car to go always to the same partition, we can send the id of the car to guarantee all the data of the same car will go to the same partition.
 - This mechanism of keying our partitions is called key hashing. We don't say "this key go to this partition", the only thing Kafka guarantees is "this key will go always to the same partition", but we don't know that partition.
+
+The key is used by Kafka to calculate the partition that will store the message. The partition is calculated by the following formula: `partition = hash(key) % number_of_partitions`. We want all partitions to receive roughly the same load. That means they key distribution matters a lot:
+- Even distribution happens when:
+  - Keys are diverse and fairly random (e.g., UUIDs, order IDs spread uniformly, session IDs, random hashes).
+  - Or no key is used at all → round-robin ensures balance (but then ordering is lost).
+- Uneven distribution happens when:
+  - Keys have skewed frequencies (e.g., 90% of messages have key="user123" → one partition gets overloaded).
+  - The number of distinct keys is too small compared to the number of partitions.
+
+Chosing the right key depends on the business logic:
+- If ordering per entity is needed, use that entity as the key (e.g., userId, accountId, orderId).
+- If balanced throughput is the goal and don’t care about ordering, leave the key null → Kafka will round-robin.
+- If ordering + even spread is required: pick a high-cardinality field (e.g., customerId if you have millions of customers, not countryCode if you only have 10). A field is high cardinality if it has many unique values compared to the number of partitions. Example: countryCode → only ~200 possible values (low cardinality). userId → millions of unique values (high cardinality).
+
+To keep partitions balanced:
+- Number of unique keys ≫ number of partitions (at least 10x more unique keys than partitions is a good practice).
+- Check key frequency distribution → ideally uniform.
 
 ## Consumers & consumer groups
 In the same way producers write data, consumers read data from a topic (specified by name).
@@ -286,7 +303,7 @@ General guidelines:
 - Each partition consists of several segments. Each segment takes care of a certain group of offsets.
 - The last segment is called the active one, because data is writen in that segment. Once the segment is full, it is closed, a new one is created and that segment becomes the active one. Only one segment is active at a time.
 
-There are two settins linked to segments:
+There are two settings linked to segments:
 - log.segment.bytes: the maximum size of a single segment in bytes.
   - By default 1GB.
 - log.segment.ms: the time Kafka will wait before committing the segment if not full.
@@ -369,6 +386,73 @@ To activate log compaction:
   - By default 24 hours.
 - `min.cleanable.dirty.ratio`: higher -> less, more efficient cleaning. Lower -> opposite.
   - By default 0.5. 
+
+# Kafka Cluster
+A Kafka cluster is a group of Kafka brokers (servers) working together to provide:
+- Scalable event streaming (can handle TBs of data).
+- High availability (no single point of failure).
+- Fault tolerance (data replicated across brokers).
+
+At its core, a Kafka cluster:
+- Stores topics (collections of messages).
+- Splits topics into partitions (units of parallelism & scaling).
+- Assigns partitions to brokers.
+- Uses replication so data survives broker failures.
+
+Imagine a 3-broker cluster with topic orders having 6 partitions and replication factor 3:
+- Partition 0 (leader on Broker 1, replicas on Broker 2 & 3)
+- Partition 1 (leader on Broker 2, replicas on Broker 1 & 3)
+- Partition 2 (leader on Broker 3, replicas on Broker 1 & 2)
+- … and so on.
+
+This ensures:
+- High availability → if Broker 1 fails, Partition 0’s leader moves to Broker 2.
+- Scalability → multiple partitions allow parallel consumption & production.
+
+This is how Data Flows in a Kafka Cluster
+1. Producer sends a message → goes to a partition (decided by key or round-robin).
+2. Leader broker stores it → writes message to disk (commit log).
+3. Followers replicate the message from the leader.
+4. Once acknowledged → producer considers message successfully sent.
+5. Consumer reads from the leader → fetches committed messages.
+
+## Cluster-Level Features
+- Partition Rebalancing → When brokers join/leave, partitions are reassigned.
+- Replication Quorum → Kafka ensures data is acknowledged by enough replicas (acks=all).
+- Retention Policies → Kafka stores messages for a configurable time (e.g., 7 days).
+- Monitoring → Metrics via JMX, Prometheus, Grafana.
+- Security:
+  - Authentication (SASL, Kerberos, OAuth).
+  - Authorization (ACLs).
+  - Encryption (TLS).
+
+## Fault Tolerance and High Availability
+Kafka is designed for failure. If a broker goes down:
+- Controller detects failure.
+- Partitions on that broker are re-assigned.
+- Consumers/producers automatically redirect to new leaders.
+- With replication factor 3, Kafka can survive 2 broker failures.
+
+## Cluster Sizing and Best Practices
+- Start with 3 brokers (minimum for production).
+- Replication factor = 3 for critical topics.
+- Partitions:
+  - More partitions → higher throughput. But too many partitions → overhead (rule of thumb: start with 100 per broker).
+  - Disk choice: use fast SSDs.
+  - Networking: low-latency, high-bandwidth network is critical.
+
+## Scaling Kafka Clusters
+- Horizontal scaling → add more brokers.
+- Rebalance partitions across new brokers.
+- Use Kafka Streams or ksqlDB for processing.
+- Large deployments may separate controller nodes from broker nodes (in KRaft).
+
+## Monitoring and Maintenance
+Key metrics:
+- Under-replicated partitions.
+- Offline partitions.
+- Broker health.
+- Consumer lag.
 
 # Kafka CLI
 ## Kafka topics
