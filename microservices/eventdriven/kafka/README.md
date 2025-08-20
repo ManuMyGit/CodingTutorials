@@ -457,8 +457,8 @@ Key metrics:
 # Kafka CLI
 ## Kafka topics
 - Command: `kafka-topics`
-- Creation example: `kafka-topics --bootstrap-server localhost:9092 --topic my_topic --create --partitions 3 --replication-factor 1`
-  - We need to tell the command where the Kafka server is (in this case, it is running locally, port 9092).
+- Creation example: `kafka-topics --bootstrap-server localhost:9092 --topic my_topic --create --partitions 3 --replication-factor 2`
+  - We need to tell the command where the Kafka server is (in this case, it is running locally, port 9092. I could add a cluster with localhost:9092,localhost:9094,localhost:9096).
   - Number of partitions: 3
   - Number of replicas: 2. We'll get an error provided the number of replicas is bigger than the number of brokers. There can be more brokers than replicas, but not more replicas than brokers.
 - List all topics: `kafka-topics --bootstrap-server localhost:9092 --list`
