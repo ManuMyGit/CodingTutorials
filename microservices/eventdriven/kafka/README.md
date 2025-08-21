@@ -144,6 +144,7 @@ In the same way producers write data, consumers read data from a topic (specifie
 
 Consumers can group to build consumer groups:
 - Each consumer within a group reads from exclusive partitions.
+- A partition can be read only by one consumer within the consumer group, so if there are more consumers than partitions, the extra consumers will remain idle.
 - Kafka guarantees that a message is read only by one consumer within the consumer group.
 - If we have more consumers than partitions, some consumers will be inactive. This scenario could be built on purpose, for instance 3 partitions and 4 consumers in case a consumer breaks down, the 4th one takes place to keep consuming with 3 consumers.
 - If we have more partitions than consumers, some consumers will read from more than one partition.
@@ -514,7 +515,7 @@ To fully configure producers and consumers we have the Kafka documentation:
     - 0 (no ack): no response is requested from the producer. Useful for data where it's okay to potentially losing messages, like metrics or logs. Nice in performance because the broker never replies.
     - 1 (leader ack): only the leader send the ack from the broker. If the leader goes down before the data is replicated, the data will get lost. If there is no ack, the producer may retry.
     - all (leader and replicas ack): most secure option but worse in performance, since both leader and replicas need to send the ack. There is no data loss if there are enough replicas online.
-  - `min.insync.replicas`: it can be set up at broker or topic level. It is mandatory to use with acks = all. It specifies the number of replicas which must send back the ack so the leader can ack the message. For instance, if its value = 2, it means that at least 2 brokers that are ISR (including the leader) must respond that they have the data. Another example, if we use replication.factor = 3, min.insync.replicas = 2 and acks = all, we can tolerate only 1 broker going down, otherwise the producer will receive an exception on send.
+  - `min.insync.replicas`: it can be set up at broker or topic level. It is mandatory to use with acks = all. It specifies the number of replicas which must send back the ack so the leader can ack the message. For instance, if its value = 2, it means that at least 2 brokers that are ISR (In-Sync Replica, including the leader) must respond that they have the data. Another example, if we use replication.factor = 3, min.insync.replicas = 2 and acks = all, we can tolerate only 1 broker going down, otherwise the producer will receive an exception on send.
   - `retries`: when we have failures on our the producer, there is an implicit retry mechanism so the message is retried automatically by the producer.
     - By default = 0 with Kafka <= 2.0 or Integer.MAX_VALUE >= 2.1.
   - `retries.backoff.ms`: number of ms between retries by the producer.
