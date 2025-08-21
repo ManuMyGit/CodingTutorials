@@ -321,6 +321,9 @@ Why should we care about segments?
 - A smaller log.segment.bytes means more segments per partition. That means that log Compaction happens more often and Kafka needs to keep more files opened (which could lead to errors).
 - A smaller log.segments.ms more frecuency for log compaction (more frequent triggers) and we'll get more files.
 
+## Kafka Transactions
+Kafka transactions allow us to write to multiple topics atomically, all or nothing behaviour, like a transaction in a database. Either all the messages are published or none (Kafka does not manage database transactions).
+
 ## Log cleanup policies
 Many kafka clusters make data expire according to a policy. That is called log cleanup. To configure the policy we have the `log.cleanup.policy`.
 - Kafka default for all user topics: delete.
@@ -388,6 +391,15 @@ To activate log compaction:
   - By default 24 hours.
 - `min.cleanable.dirty.ratio`: higher -> less, more efficient cleaning. Lower -> opposite.
   - By default 0.5. 
+
+## SAGA with Kafka
+The Saga architecture pattern provides transaction management using a sequence of local transactions. In the Saga pattern, a compensating transaction must be idempotent and retryable.
+- Choreography-based SAGA: transactions are done based on event sent to the broker by the previous microservice. Each microservice sends a message. In case of failure, microservices start performing compensating transactions to undo whatever transaction has been done before the failure.
+- Orchestration-based SAGA: only the main microservice publishes messages to kafka, and processes messages from the other microservices. The main microservice orchestrates the entire flow, including compensating transactions.
+
+Compensating transactions can be achieved with:
+- History table: it includes all the events that happened.
+- Main table: it includes latest status (for instance, an order with status = rejected as result of the compensation).
 
 # Kafka Cluster
 A Kafka cluster is a group of Kafka brokers (servers) working together to provide:
@@ -559,16 +571,25 @@ To fully configure producers and consumers we have the Kafka documentation:
   - `offset.retention.minutees`: number of minutes kafka keeps the offsets.
     - Default value 7 days (10080 minutes).
   - `session.timeout.ms`: the max time the broker can be without a hearbeat (health check) of a consumer before it is considered dead.
-    - By default 10 seconds.
-    - Set lower to faster consumer rebalances.
+    - Purpose: Specifies the amount of time (in milliseconds) the consumer can go without sending a heartbeat to the Kafka broker before it is considered dead. If the consumer fails to send a heartbeat within this timeout, the broker will consider the consumer as no longer alive and will trigger a rebalance of the consumer group.
+    - Used by the heartbeat mechanism that keeps the consumer's membership in the group active.
+    - By default 10,000 ms (10 seconds).
+    - Key Points:
+      - If a consumer is detected as dead (due to missing heartbeats), partitions assigned to it will be reassigned to other consumers.
+      - Should be set low enough to allow timely detection of dead consumers but high enough to avoid false positives due to temporary network delays.
+      - Typically used in conjunction with heartbeat.interval.ms (which is often set to 1/3 of session.timeout.ms).
   - `heartbeat.interval.ms`: how often the consumer group sends the hearbeat to the broker.
     - By default 3 seconds.
     - General rule, 1/3 of session.timeout.ms.
     - This mechanism is used to detect a consumer application being down.
   - `max.poll.interval.ms`: maximum amount of time between two .poll() calls before declaring the consumer dead.
-    - By default 5 minutes.
-    - This is particular relevant for Big Data.
-    - This mechanism is used to detect a data processing issue with the consumer.
+    - Purpose: Specifies the maximum time allowed between calls to poll() on the consumer. If the consumer does not call poll() within this interval, it is considered as being stuck or unable to process messages, and the broker will trigger a rebalance.
+    - Used by: The mechanism ensuring the consumer is actively processing records, used to detect a data processing issue with the consumer.
+    - Typical Default: 300,000 ms (5 minutes).
+    - Key Points:
+      - Ensures that the consumer is actively processing records and not stuck.
+      - If your consumer is processing large batches of data that may take longer than this interval, you should increase this value to avoid unnecessary rebalances. This is particular relevant for Big Data.
+      - Should be set high enough to accommodate the time required for the consumer to process messages if processing is complex or slow. If your consumer takes a long time to process messages, ensure max.poll.interval.ms > time required for processing to avoid unnecessary rebalances.
   - Offset commitment strategies:
     1. `enable.auto.commit=true` & synchronous processing of batches. Offset will be comitted regularly for us (`auto.commit.interval.ms=5000` by default). If we don't use sync processing, we'll be in "at-most-once" behavior because offsets will be commited before the data is processed.
     2. `enable.auto.commit=false` & synchronous processing of batches. Offset will be comitted after the data is processed. Strategy at-leas-once.  
