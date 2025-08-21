@@ -145,6 +145,7 @@ In the same way producers write data, consumers read data from a topic (specifie
 Consumers can group to build consumer groups:
 - Each consumer within a group reads from exclusive partitions.
 - A partition can be read only by one consumer within the consumer group, so if there are more consumers than partitions, the extra consumers will remain idle.
+- Consumers within a consumer group sends heart beats to the broker to let it know that the consumer is running and can consume messages. If the consumer stops, it stops sending heart beat signal to the broker. The broker will start rebalancing, it will check how many partitions, how many consumers and will rebalance the partitions. In case of an extra idle consumer, it will be assigned to the partition assigned to the consumer that stopped.
 - Kafka guarantees that a message is read only by one consumer within the consumer group.
 - If we have more consumers than partitions, some consumers will be inactive. This scenario could be built on purpose, for instance 3 partitions and 4 consumers in case a consumer breaks down, the 4th one takes place to keep consuming with 3 consumers.
 - If we have more partitions than consumers, some consumers will read from more than one partition.
